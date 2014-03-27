@@ -10,13 +10,13 @@ import java.util.Map;
  * @author sardemff7
  */
 public class Config {
-    private HashMap<String, Value> conf;
     static private Config singleton;
+    private HashMap<String, Value> conf;
 
     private Config() {
         this.conf = new HashMap<String, Value>();
         this.conf.put("theme", new Theme("Theme", "glossy"));
-        this.conf.put("AI", new Value<Boolean>("Human vs. AI", false));
+        this.conf.put("AI", new Value<Boolean>("Human vs AI", false));
     }
 
     static private HashMap<String, Value> getConf() {

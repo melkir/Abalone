@@ -1,7 +1,5 @@
 package com.github.abalone.config;
 
-import com.github.abalone.view.Window;
-
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Collections;
@@ -28,9 +26,9 @@ public class Theme extends ConstraintValue<String> {
         if (Theme.list == null) {
             Theme.list = new HashSet<String>();
 
-            String jarPath = Window.class.getResource("game").getPath();
+//          String jarPath = Window.class.getResource("game").getPath();
 //		    jarPath = jarPath.substring(5, jarPath.indexOf("!"));
-            jarPath = "/home/melkir/IJworspace/Abalone/target/Abalone-1.0-SNAPSHOT-jar-with-dependencies.jar";
+            String jarPath = "/home/melkir/IJworspace/Abalone/target/Abalone-1.0-SNAPSHOT-jar-with-dependencies.jar";
 
             JarFile jar = null;
             try {
@@ -56,7 +54,7 @@ public class Theme extends ConstraintValue<String> {
 
     @Override
     protected Boolean check(String value) {
-        return Theme.list.contains((String) value);
+        return Theme.list.contains(value);
     }
 
     @Override

@@ -1,115 +1,100 @@
 package com.github.abalone.view;
 
-import java.awt.BorderLayout;
-import java.awt.LayoutManager;
+import com.github.abalone.controller.GameController;
+import com.github.abalone.util.Color;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import com.github.abalone.controller.GameController;
-import com.github.abalone.util.Color;
-
 /**
- * 
  * @author sardemff7
  */
 public class Window extends JFrame implements ComponentListener {
 
-	private final Toolbar toolbar;
-	private final Board board;
-	private Boolean locked = Boolean.FALSE;
-	private final JLabel status;
+    private final Board board;
+    private Boolean locked = Boolean.FALSE;
 
-	Boolean isLocked() {
-		return this.locked;
-	}
+    public Window() throws Exception {
+        super("Abalone");
 
-	public void lock() {
-		this.locked = Boolean.TRUE;
-	}
+        GameController.getInstance().setWindow(this);
 
-	public void unlock() {
-		this.locked = Boolean.FALSE;
-	}
+        this.setSize(600, 600);
 
-	public Window() throws Exception {
-		super("Abalone");
+        String[] lookAndFeels = {"com.sun.java.swing.plaf.gtk.GTKLookAndFeel",
+                "com.sun.java.swing.plaf.windows.WindowsLookAndFeel",
+                "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel",
+                "com.sun.java.swing.plaf.motif.MotifLookAndFeel",
+                "javax.swing.plaf.metal.MetalLookAndFeel"};
 
-		GameController.getInstance().setWindow(this);
+        integrate:
+        {
+            for (String name : lookAndFeels) {
+                if (this.checkLookAndFeel(name))
+                    break integrate;
+            }
+            throw new Exception("No LookAndFeel");
+        }
 
-		this.setSize(600, 600);
+        LayoutManager layout = new BorderLayout();
+        this.setLayout(layout);
 
-		String[] lookAndFeels = { "com.sun.java.swing.plaf.gtk.GTKLookAndFeel",
-				"com.sun.java.swing.plaf.windows.WindowsLookAndFeel",
-				"com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel",
-				"com.sun.java.swing.plaf.motif.MotifLookAndFeel",
-				"javax.swing.plaf.metal.MetalLookAndFeel" };
+        this.board = new Board(this);
+        Toolbar toolbar = new Toolbar(this.board);
+        JLabel status = new JLabel("Abalone");
 
-		integrate: {
-			for (String name : lookAndFeels) {
-				if (this.checkLookAndFeel(name))
-					break integrate;
-			}
-			throw new Exception("No LookAndFeel");
-		}
+        this.add(toolbar, BorderLayout.PAGE_START);
+        this.add(this.board);
+        this.add(status, BorderLayout.PAGE_END);
 
-		LayoutManager layout = new BorderLayout();
-		this.setLayout(layout);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.addComponentListener(this);
+    }
 
-		this.board = new Board(this);
-		this.toolbar = new Toolbar(this.board);
-		this.status = new JLabel("Abalone");
+    Boolean isLocked() {
+        return this.locked;
+    }
 
-		this.add(this.toolbar, BorderLayout.PAGE_START);
-		this.add(this.board);
-		this.add(this.status, BorderLayout.PAGE_END);
+    private Boolean checkLookAndFeel(String name) {
+        try {
+            UIManager.setLookAndFeel(name);
+            return true;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.addComponentListener(this);
-	}
+    public void updateBoard(Color turn) {
+        this.board.reversed = turn.equals(Color.WHITE);
+        this.board.repaint();
+    }
 
-	private Boolean checkLookAndFeel(String name) {
-		try {
-			UIManager.setLookAndFeel(name);
-			return true;
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (UnsupportedLookAndFeelException ex) {
-			Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return false;
-	}
+    @Override
+    public void componentResized(ComponentEvent ce) {
+        this.board.computeBoardScale();
+    }
 
-	public void updateBoard(Color turn) {
-		this.board.reversed = turn.equals(Color.WHITE);
-		this.board.repaint();
-	}
+    @Override
+    public void componentMoved(ComponentEvent ce) {
+    }
 
-	@Override
-	public void componentResized(ComponentEvent ce) {
-		this.board.computeBoardScale();
-	}
+    @Override
+    public void componentShown(ComponentEvent ce) {
+    }
 
-	@Override
-	public void componentMoved(ComponentEvent ce) {
-	}
-
-	@Override
-	public void componentShown(ComponentEvent ce) {
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent ce) {
-	}
+    @Override
+    public void componentHidden(ComponentEvent ce) {
+    }
 
 }
