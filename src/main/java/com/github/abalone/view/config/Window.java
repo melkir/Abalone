@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.Map;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 public class Window extends JFrame {
     private final Box box;

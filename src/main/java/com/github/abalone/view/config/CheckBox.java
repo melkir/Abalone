@@ -7,7 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 class CheckBox extends JCheckBox implements ItemListener {
     private final Value value;

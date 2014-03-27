@@ -7,7 +7,7 @@ import com.github.abalone.util.Direction;
 import java.io.Serializable;
 
 /**
- * @author keruspe
+ * @author melkir
  */
 public class Ball implements Serializable {
 

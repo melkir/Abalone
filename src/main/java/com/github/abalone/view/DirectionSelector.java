@@ -8,7 +8,7 @@ import java.util.EnumMap;
 import java.util.Set;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 class DirectionSelector extends JDialog {
     private EnumMap<Direction, DirectionButton> buttons;

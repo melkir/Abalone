@@ -18,8 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author keruspe
- * @author sardemff7
+ * @author melkir
  */
 public class GameController {
 

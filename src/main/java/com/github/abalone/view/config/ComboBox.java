@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 class ComboBox extends JComboBox implements ActionListener {
     private final Value value;

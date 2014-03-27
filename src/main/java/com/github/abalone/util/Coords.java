@@ -5,7 +5,7 @@ import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 
 /**
- * @author keruspe
+ * @author melkir
  */
 public class Coords implements Serializable, Comparable<Coords> {
 

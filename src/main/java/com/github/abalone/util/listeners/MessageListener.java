@@ -1,7 +1,7 @@
 package com.github.abalone.util.listeners;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 public interface MessageListener {
     void newMessage(String message);

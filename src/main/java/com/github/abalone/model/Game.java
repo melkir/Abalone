@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * @author joe
+ * @author melkir
  */
 public class Game implements Serializable {
 

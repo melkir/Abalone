@@ -3,7 +3,7 @@ package com.github.abalone.config;
 import java.util.Set;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 public abstract class ConstraintValue<T> extends Value<T> {
     protected ConstraintValue(String description, T value) {

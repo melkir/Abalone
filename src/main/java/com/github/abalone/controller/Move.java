@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * @author keruspe
+ * @author melkir
  */
 public class Move implements Serializable {
 

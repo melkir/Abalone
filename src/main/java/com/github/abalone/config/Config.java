@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 public class Config {
     static private Config singleton;

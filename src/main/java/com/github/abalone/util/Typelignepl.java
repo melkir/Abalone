@@ -3,7 +3,7 @@ package com.github.abalone.util;
 import java.util.ArrayList;
 
 /**
- * @author joe
+ * @author melkir
  */
 public enum Typelignepl {
 

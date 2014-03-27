@@ -5,7 +5,7 @@ import com.github.abalone.util.listeners.ValueListener;
 import java.util.HashSet;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 public class Value<T> {
     public final String description;

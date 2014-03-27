@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 class ToolButton extends JButton implements ActionListener {
     private final String type;

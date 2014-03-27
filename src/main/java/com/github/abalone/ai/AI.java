@@ -8,8 +8,7 @@ import com.github.abalone.util.Color;
 import java.util.Set;
 
 /**
- * @author keruspe
- * @author sardemff7
+ * @author melkir
  */
 public class AI {
 

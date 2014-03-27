@@ -1,6 +1,6 @@
 package com.github.abalone.util;
 
 /**
- * @author keruspe
+ * @author melkir
  */
 public enum GameState { RUNNING, OUTOFTURNS, WON }

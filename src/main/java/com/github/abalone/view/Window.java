@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 public class Window extends JFrame implements ComponentListener {
 

@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 class Board extends JPanel implements MouseListener, ValueListener {
     private final Window window;

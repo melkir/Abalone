@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 public class Theme extends ConstraintValue<String> {
     static HashSet<String> list = null;

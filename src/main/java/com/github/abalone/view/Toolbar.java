@@ -3,7 +3,7 @@ package com.github.abalone.view;
 import javax.swing.*;
 
 /**
- * @author sardemff7
+ * @author melkir
  */
 class Toolbar extends JToolBar {
     private final ToolButton newGame;

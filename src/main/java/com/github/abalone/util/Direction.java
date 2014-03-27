@@ -1,7 +1,7 @@
 package com.github.abalone.util;
 
 /**
- * @author joe
+ * @author melkir
  */
 public enum Direction {
 
