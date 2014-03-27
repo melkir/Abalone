@@ -48,7 +48,7 @@ public class Move implements Serializable {
         }
     }
 
-    // renvoi la bille la plus proche de la bille adverse ou de la case vide
+    /** Renvoi la bille la plus proche de la bille adverse ou de la case vide */
     private Ball closest(Board board) {
         Coords closest = new Coords();
         switch (this.direction) {
@@ -143,7 +143,14 @@ public class Move implements Serializable {
                     }
                 } else {
                     Ball closest = closest(board);
-                    Ball next = board.getBallAt(closest, this.direction);
+                    // TODO Corriger la NPE
+                    Ball next = null;
+                    try {
+                        next = board.getBallAt(closest, this.direction);
+                    } catch (NullPointerException e) {
+                        System.err.println("La boule est nul !");
+                        e.printStackTrace();
+                    }
                     if (next.getColor() == Color.NONE) {
                         result.add(b1);
                         result.add(b2);

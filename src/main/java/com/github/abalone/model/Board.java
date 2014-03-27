@@ -104,14 +104,8 @@ public class Board implements Serializable {
     }
 
     public Ball getBallAt(Ball ball, Direction direction) {
-        Integer row = -1, col = -1;
-        try {
-            row = ball.getCoords().getRow();
-            col = ball.getCoords().getCol();
-        } catch (NullPointerException e) {
-            System.err.println("J'ai capturé l'erreur !");
-            e.printStackTrace();
-        }
+        Integer row = ball.getCoords().getRow();
+        Integer col = ball.getCoords().getCol();
         switch (direction) {
             case UPLEFT:
                 if (--row < 0) {

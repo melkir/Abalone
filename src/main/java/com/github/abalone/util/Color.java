@@ -12,21 +12,13 @@ import java.io.Serializable;
  */
 public enum Color implements Serializable {
 
-    /**
-     * A while Ball
-     */
+    /** A while Ball */
     WHITE,
-    /**
-     * A black Ball
-     */
+    /** A black Ball */
     BLACK,
-    /**
-     * No Ball
-     */
+    /** No Ball */
     NONE,
-    /**
-     * Out of the Board
-     */
+    /** Out of the Board */
     INVALID;
 
     public Boolean isPlayer() {
@@ -38,6 +30,8 @@ public enum Color implements Serializable {
             return BLACK;
         else if (this == BLACK)
             return WHITE;
+        else if (this == INVALID)
+            return INVALID;
         else
             return this;
     }

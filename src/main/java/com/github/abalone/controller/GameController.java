@@ -19,7 +19,7 @@ import java.util.Set;
  * @author melkir
  */
 public class GameController {
-
+    // TODO Désactiver bestMove en pvp, mettre IA dans un tread, terminer la partie quand 6 boules sont sorties
     private static GameController singleton;
     private Window window;
     private Game game;
@@ -41,8 +41,9 @@ public class GameController {
         this.game = new Game(Color.WHITE, -1, -1);
         AI.init(this.game, (Boolean) Config.get("AI") ? Color.BLACK
                 : Color.NONE);
-        this.currentBestMove = AI.getInstance()
-                .getBestMove(this.game.getTurn());
+        //TODO Calculer le bestMove dans un thread
+        this.currentBestMove = AI.getInstance().getBestMove(this.game.getTurn());
+        //
         this.window.updateBoard(this.game.getTurn());
     }
 
@@ -124,11 +125,13 @@ public class GameController {
         if (current == Color.NONE) {
             return GameState.OUTOFTURNS;
         } else if (this.game.over()) {
+            System.out.println("Partie terminé");
             return GameState.WON;
         }
         this.game.getBoard().apply(move);
         this.game.addToHistory(move);
         Color next = this.game.getNextTurn();
+        //TODO Mettre l' IA dans un thread
         AI ai = AI.getInstance();
         Move bestMove = ai.getBestMove(next);
         if (next.equals(ai.getColor())) {
@@ -136,6 +139,7 @@ public class GameController {
         } else {
             this.currentBestMove = bestMove;
         }
+        //
         this.window.updateBoard(this.game.getTurn());
         return GameState.RUNNING;
     }
