@@ -17,9 +17,7 @@ import java.util.Set;
 public class Board implements Serializable {
 
     private static Board singleton;
-
     private HashSet<Ball> balls = new HashSet<Ball>(28);
-
     private boolean filled;
 
     private Board() {
@@ -215,7 +213,7 @@ public class Board implements Serializable {
         return (ballsCount(color) < 9);
     }
 
-    public Boolean areALine(Set<Ball> coords) {
+    Boolean areALine(Set<Ball> coords) {
         Iterator<Ball> itc = coords.iterator();
         Coords c1, c2, c3;
         switch (coords.size()) {

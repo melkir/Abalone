@@ -14,9 +14,8 @@ import java.util.logging.Logger;
  * @author melkir
  */
 public class Window extends JFrame implements ComponentListener {
-
     private final Board board;
-    private Boolean locked = Boolean.FALSE;
+    private final Boolean locked = Boolean.FALSE;
 
     public Window() throws Exception {
         super("Abalone");

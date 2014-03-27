@@ -33,7 +33,7 @@ class Board extends JPanel implements MouseListener, ValueListener {
     private SVGIcon blackBall;
     private Integer origX = 0;
     private Integer origY = 0;
-    private HashSet<Coords> selectedBalls;
+    private final HashSet<Coords> selectedBalls;
     private SVGIcon selection;
     private DirectionSelector selector;
 
@@ -55,14 +55,12 @@ class Board extends JPanel implements MouseListener, ValueListener {
 
         if ((target.width > container.width)
                 && (target.height <= container.height))
-            s = (double) container.width / (double) target.width; // It does not
-            // fit
-            // horizontaly
+            // It does not fit horizontally
+            s = (double) container.width / (double) target.width;
         else if ((target.width <= container.width)
                 && (target.height > container.height))
-            s = (double) container.height / (double) target.height; // It does
-            // not fit
-            // verticaly
+            // It does not fit vertically
+            s = (double) container.height / (double) target.height;
         else if (target.width == target.height) {
             if (container.width <= container.height)
                 s = (double) container.width / (double) target.width;
@@ -252,6 +250,7 @@ class Board extends JPanel implements MouseListener, ValueListener {
         }
     }
 
+    /** Change the theme of the game */
     private void themeChange(String theme) {
         this.board = new SVGIcon();
         this.board.setScaleToFit(true);

@@ -6,7 +6,7 @@ import java.util.Set;
  * @author melkir
  */
 public abstract class ConstraintValue<T> extends Value<T> {
-    protected ConstraintValue(String description, T value) {
+    ConstraintValue(String description, T value) {
         super(description, value);
     }
 

@@ -14,8 +14,6 @@ import com.github.abalone.view.Window;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author melkir
@@ -23,11 +21,8 @@ import java.util.logging.Logger;
 public class GameController {
 
     private static GameController singleton;
-
     private Window window;
-
     private Game game;
-
     private Move currentBestMove;
 
     private GameController() {
@@ -53,35 +48,30 @@ public class GameController {
 
     /** Save the game */
     public void save() {
-        FileOutputStream fos = null;
         ObjectOutputStream oos = null;
+        File file;
         try {
-            File f = new File("abalone.save");
-            fos = new FileOutputStream(f);
-            oos = new ObjectOutputStream(fos);
+            file = new File("abalone.save");
+            oos = new ObjectOutputStream(new FileOutputStream(file));
             oos.writeObject(this.game);
-        } catch (Exception ex) {
-            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE,
-                    null, ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             try {
-                fos.close();
-                oos.close();
-            } catch (IOException ex) {
-                Logger.getLogger(GameController.class.getName()).log(
-                        Level.SEVERE, null, ex);
+                if (null != oos) oos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
     /** Load the saved game */
     public Boolean load() {
-        FileInputStream fis = null;
         ObjectInputStream ois = null;
+        File file;
         try {
-            File f = new File("abalone.save");
-            fis = new FileInputStream(f);
-            ois = new ObjectInputStream(fis);
+            file = new File("abalone.save");
+            ois = new ObjectInputStream(new FileInputStream(file));
             Game loadedGame = (Game) ois.readObject();
             this.game = new Game(loadedGame.getTurn(),
                     loadedGame.getTimeLeft(), loadedGame.getTurnsLeft());
@@ -94,18 +84,13 @@ public class GameController {
                     this.game.getTurn());
             this.window.updateBoard(this.game.getTurn());
         } catch (Exception ex) {
-            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            ex.printStackTrace();
             return Boolean.FALSE;
         } finally {
             try {
-                if (fis != null)
-                    fis.close();
-                if (ois != null)
-                    ois.close();
+                if (ois != null) ois.close();
             } catch (IOException ex) {
-                Logger.getLogger(GameController.class.getName()).log(
-                        Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
         }
         this.window.updateBoard(this.game.getTurn());

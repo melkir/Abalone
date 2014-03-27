@@ -9,8 +9,8 @@ import java.util.HashSet;
  */
 public class Value<T> {
     public final String description;
-    protected T value;
-    HashSet<ValueListener> listeners;
+    private T value;
+    private final HashSet<ValueListener> listeners;
 
     public Value(String description, T value) {
         this.description = description;

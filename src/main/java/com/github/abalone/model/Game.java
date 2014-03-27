@@ -12,13 +12,9 @@ import java.util.ArrayList;
 public class Game implements Serializable {
 
     private Board board;
-
     private Color turn;
-
     private Integer timeLeft;
-
     private Integer turnsLeft;
-
     private ArrayList<Move> history;
 
     public Game(Color turn, Integer time, Integer turns) {
@@ -73,7 +69,7 @@ public class Game implements Serializable {
         return this.turn;
     }
 
-    public Color getPreviousTurn() {
+    public void getPreviousTurn() {
         if (!this.turnsLeft.equals(-1)) {
             ++this.turnsLeft;
         }
@@ -82,7 +78,6 @@ public class Game implements Serializable {
         } else {
             this.turn = this.turn.other();
         }
-        return this.turn;
     }
 
     public Boolean over() {

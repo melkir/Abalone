@@ -11,7 +11,7 @@ import java.util.Set;
  * @author melkir
  */
 class DirectionSelector extends JDialog {
-    private EnumMap<Direction, DirectionButton> buttons;
+    private final EnumMap<Direction, DirectionButton> buttons;
 
     DirectionSelector(Window window, Board board) {
         super(window, "Direction");

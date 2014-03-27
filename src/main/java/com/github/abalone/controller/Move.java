@@ -19,7 +19,7 @@ public class Move implements Serializable {
 
     private Set<Ball> initialBalls = null;
     private Set<Ball> finalBalls = null;
-    private Direction direction;
+    private final Direction direction;
     private Color color;
 
     private Boolean valid = false;

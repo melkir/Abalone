@@ -12,7 +12,6 @@ import java.io.Serializable;
 public class Ball implements Serializable {
 
     private Color color;
-
     private Coords coords;
 
     public Ball(Color color, Integer row, Integer col) {

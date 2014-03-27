@@ -16,8 +16,8 @@ public class AI {
     private static final Integer INF = 1000;
 
     private static AI instance;
-    private Game game;
-    private Color selfColor;
+    private final Game game;
+    private final Color selfColor;
 
     private AI(Game game, Color selfColor) {
         this.game = game;

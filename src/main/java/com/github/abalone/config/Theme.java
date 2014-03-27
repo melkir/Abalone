@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author melkir
  */
 public class Theme extends ConstraintValue<String> {
-    static HashSet<String> list = null;
+    private static HashSet<String> list = null;
 
     public Theme(String description, String value) {
         super(description, value);

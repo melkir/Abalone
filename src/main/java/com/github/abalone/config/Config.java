@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Config {
     static private Config singleton;
-    private HashMap<String, Value> conf;
+    private final HashMap<String, Value> conf;
 
     private Config() {
         this.conf = new HashMap<String, Value>();
@@ -29,11 +29,6 @@ public class Config {
         if ((name == null) || (!getConf().containsKey(name)))
             return null;
         return getConf().get(name).get();
-    }
-
-    static public void set(String name, Object value) {
-        Value v = getConf().get(name);
-        v.set(value);
     }
 
     static public Map<String, Value> getConfig() {

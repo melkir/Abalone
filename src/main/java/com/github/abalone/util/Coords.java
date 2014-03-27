@@ -1,6 +1,6 @@
 package com.github.abalone.util;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
@@ -9,9 +9,7 @@ import java.io.Serializable;
  */
 public class Coords implements Serializable, Comparable<Coords> {
 
-    private Integer row;
-
-    private Integer col;
+    private Integer row, col;
 
     public Coords() {
         this.row = null;
@@ -32,22 +30,8 @@ public class Coords implements Serializable, Comparable<Coords> {
         return this.row;
     }
 
-    /**
-     * @param row the row to set
-     */
-    public void setRow(Integer row) {
-        this.row = row;
-    }
-
     public Integer getCol() {
         return this.col;
-    }
-
-    /**
-     * @param col the col to set
-     */
-    public void setCol(Integer col) {
-        this.col = col;
     }
 
     @Override
@@ -59,12 +43,12 @@ public class Coords implements Serializable, Comparable<Coords> {
             return false;
         }
         final Coords other = (Coords) obj;
-        if (this.row != other.row
-                && (this.row == null || !this.row.equals(other.row))) {
+        if (!this.row.equals(other.row) && (this.row == null
+                || !this.row.equals(other.row))) {
             return false;
         }
-        if (this.col != other.col
-                && (this.col == null || !this.col.equals(other.col))) {
+        if (!this.col.equals(other.col) && (this.col == null
+                || !this.col.equals(other.col))) {
             return false;
         }
         return true;
@@ -79,37 +63,37 @@ public class Coords implements Serializable, Comparable<Coords> {
     }
 
     public Coords moveTo(Direction direction) {
-        Coords arrivee = new Coords(this);
+        Coords destination = new Coords(this);
 
         switch (direction) {
             case UPLEFT:
-                if (--arrivee.row < 0) {
-                    --arrivee.col;
+                if (--destination.row < 0) {
+                    --destination.col;
                 }
                 break;
             case UPRIGHT:
-                if (--arrivee.row > -1) {
-                    ++arrivee.col;
+                if (--destination.row > -1) {
+                    ++destination.col;
                 }
                 break;
             case LEFT:
-                --arrivee.col;
+                --destination.col;
                 break;
             case RIGHT:
-                ++arrivee.col;
+                ++destination.col;
                 break;
             case DOWNLEFT:
-                if (++arrivee.row > 0) {
-                    --arrivee.col;
+                if (++destination.row > 0) {
+                    --destination.col;
                 }
                 break;
             case DOWNRIGHT:
-                if (++arrivee.row < 1) {
-                    ++arrivee.col;
+                if (++destination.row < 1) {
+                    ++destination.col;
                 }
                 break;
         }
-        return arrivee;
+        return destination;
     }
 
     public Typelignepl LignePl(Coords c) {
