@@ -42,7 +42,7 @@ public class GameController {
         AI.init(this.game, (Boolean) Config.get("AI") ? Color.BLACK
                 : Color.NONE);
         //TODO Calculer le bestMove dans un thread
-        this.currentBestMove = AI.getInstance().getBestMove(this.game.getTurn());
+//        this.currentBestMove = AI.getInstance().getBestMove(this.game.getTurn());
         //
         this.window.updateBoard(this.game.getTurn());
     }
@@ -79,10 +79,10 @@ public class GameController {
             this.game.setHistory(loadedGame.getHistory());
             this.game.setBoard(Board.getInstance());
             this.game.getBoard().fill(loadedGame);
-            AI.init(this.game, ((Boolean) Config.get("AI")) ? Color.BLACK
+/*            AI.init(this.game, ((Boolean) Config.get("AI")) ? Color.BLACK
                     : Color.NONE);
             this.currentBestMove = AI.getInstance().getBestMove(
-                    this.game.getTurn());
+                    this.game.getTurn());*/
             this.window.updateBoard(this.game.getTurn());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -132,13 +132,13 @@ public class GameController {
         this.game.addToHistory(move);
         Color next = this.game.getNextTurn();
         //TODO Mettre l' IA dans un thread
-        AI ai = AI.getInstance();
+/*        AI ai = AI.getInstance();
         Move bestMove = ai.getBestMove(next);
         if (next.equals(ai.getColor())) {
             return this.doMove(bestMove);
         } else {
             this.currentBestMove = bestMove;
-        }
+        }*/
         //
         this.window.updateBoard(this.game.getTurn());
         return GameState.RUNNING;
@@ -152,7 +152,6 @@ public class GameController {
             throw new RuntimeException("This one should never throw");
         Move move = new Move(balls, direction, turn);
         move.compute(board);
-
         return doMove(move);
     }
 

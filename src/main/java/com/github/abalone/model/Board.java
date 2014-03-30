@@ -186,6 +186,7 @@ public class Board implements Serializable {
                 ++count;
             }
         }
+        System.out.println(" Board.ballsCount color " + color + " " + count);
         return count;
     }
 
