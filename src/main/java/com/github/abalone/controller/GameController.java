@@ -132,13 +132,13 @@ public class GameController {
         this.game.addToHistory(move);
         Color next = this.game.getNextTurn();
         //TODO Mettre l' IA dans un thread
-/*        AI ai = AI.getInstance();
+        AI ai = AI.getInstance();
         Move bestMove = ai.getBestMove(next);
         if (next.equals(ai.getColor())) {
             return this.doMove(bestMove);
         } else {
             this.currentBestMove = bestMove;
-        }*/
+        }
         //
         this.window.updateBoard(this.game.getTurn());
         return GameState.RUNNING;

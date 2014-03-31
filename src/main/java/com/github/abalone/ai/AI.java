@@ -41,6 +41,8 @@ public class AI {
         for (Move m : moves) {
             board.apply(m);
             Integer score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
+//            Integer score = minimax(board, MAX_DEPTH -1, current.other(), Boolean.TRUE);
+//            Integer score = alphabeta(board, MAX_DEPTH -1, -INF, +INF, current.other(), Boolean.TRUE);
             if (score > best) {
                 best = score;
                 bestMove = m;
