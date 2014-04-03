@@ -45,7 +45,6 @@ public class GameController {
                 : Color.NONE);
         //TODO Calculer le bestMove dans un thread
 //        this.currentBestMove = AI.getInstance().getBestMove(this.game.getTurn());
-
         this.window.updateBoard(this.game.getTurn());
     }
 
@@ -128,7 +127,7 @@ public class GameController {
         return answer;
     }
 
-    GameState doMove(Move move) {
+    public GameState doMove(Move move) {
         Color current = this.game.getTurn();
         if (current == Color.NONE) {
             return GameState.OUTOFTURNS;
@@ -136,24 +135,24 @@ public class GameController {
             System.out.println("Partie terminé");
             return GameState.WON;
         }
+
+        System.out.println("Application du mouvement de " + current);
         this.game.getBoard().apply(move);
-        this.game.addToHistory(move);
-        // On récupére le joueur suivant
-        Color next = this.game.getNextTurn();
-        //TODO Mettre l' IA dans un thread
 
         AI ai = AI.getInstance();
-        Move bestMove = ai.getBestMove(next);
-        // Si c'est l'ordinateur
+
+        System.out.println("On passe au tour suivant");
+        Color next = this.game.getNextTurn();
+
+        System.out.println("On met à jour la board");
+        this.window.updateBoard(this.game.getTurn());
+
         if (next.equals(ai.getColor())) {
-            // On rappelle la fonction avec le meilleur mouvement
-            return this.doMove(bestMove);
-        } else {
-            // Autrement on calcul le meilleur coup pour le joueur
-            this.currentBestMove = bestMove;
+            System.out.print("L'IA joue... c'est long...");
+            doMove(ai.getBestMove(next));
+            System.out.println("fini");
         }
-        // On met a jour le plateau de jeu
-        this.window.updateBoard(next);
+
         return GameState.RUNNING;
     }
 

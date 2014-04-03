@@ -34,8 +34,8 @@ public class AI {
     }
 
     public Move getBestMove(Color current) {
-        Board board = new Board(this.game.getBoard());
         Move bestMove = null;
+        Board board = new Board(this.game.getBoard());
         Integer best = -100;
         Set<Move> moves = board.getPossibleMoves(current);
         for (Move m : moves) {
