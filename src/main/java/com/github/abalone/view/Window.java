@@ -1,7 +1,6 @@
 package com.github.abalone.view;
 
 import com.github.abalone.controller.GameController;
-import com.github.abalone.util.Color;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,8 +73,7 @@ public class Window extends JFrame implements ComponentListener {
         return false;
     }
 
-    public void updateBoard(Color turn) {
-        this.board.reversed = turn.equals(Color.WHITE);
+    public void updateBoard() {
         this.board.repaint();
     }
 
