@@ -50,14 +50,7 @@ public class Ball implements Serializable {
             return false;
         }
         final Ball other = (Ball) obj;
-        if (this.color != other.color) {
-            return false;
-        }
-        if (this.coords != other.coords
-                && (this.coords == null || !this.coords.equals(other.coords))) {
-            return false;
-        }
-        return true;
+        return this.color == other.color && !(this.coords != other.coords && (this.coords == null || !this.coords.equals(other.coords)));
     }
 
     public void move(Direction direction) {

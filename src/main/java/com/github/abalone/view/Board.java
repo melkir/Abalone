@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 class Board extends JPanel implements MouseListener, ValueListener {
     private final Window window;
-    Boolean reversed = true;
+    private Boolean reversed = true;
     private SVGIcon board;
     private Double boardScale = -1.0;
     private SVGIcon whiteBall;

@@ -110,6 +110,7 @@ public class Move implements Serializable {
         }
 
         if (null == closest.getCol() || null == closest.getRow()) {
+            System.err.println("Pas de bille a proximité");
             throw new NullPointerException(closest.toString());
         }
 
@@ -143,14 +144,10 @@ public class Move implements Serializable {
                     }
                 } else {
                     Ball closest = closest(board);
+                    System.out.println(closest);
                     // TODO Corriger la NPE
-                    Ball next = null;
-                    try {
-                        next = board.getBallAt(closest, this.direction);
-                    } catch (NullPointerException e) {
-                        System.err.println("La boule est nul !");
-                        e.printStackTrace();
-                    }
+                    Ball next = board.getBallAt(closest, this.direction);
+
                     if (next.getColor() == Color.NONE) {
                         result.add(b1);
                         result.add(b2);
@@ -244,18 +241,7 @@ public class Move implements Serializable {
             return false;
         }
         final Move other = (Move) obj;
-        if (this.initialBalls != other.initialBalls
-                && (this.initialBalls == null || !this.initialBalls
-                .equals(other.initialBalls))) {
-            return false;
-        }
-        if (this.direction != other.direction) {
-            return false;
-        }
-        if (this.color != other.color) {
-            return false;
-        }
-        return true;
+        return !(this.initialBalls != other.initialBalls && (this.initialBalls == null || !this.initialBalls.equals(other.initialBalls))) && this.direction == other.direction && this.color == other.color;
     }
 
     @Override

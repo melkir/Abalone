@@ -43,15 +43,7 @@ public class Coords implements Serializable, Comparable<Coords> {
             return false;
         }
         final Coords other = (Coords) obj;
-        if (!this.row.equals(other.row) && (this.row == null
-                || !this.row.equals(other.row))) {
-            return false;
-        }
-        if (!this.col.equals(other.col) && (this.col == null
-                || !this.col.equals(other.col))) {
-            return false;
-        }
-        return true;
+        return !(!this.row.equals(other.row) && (this.row == null || !this.row.equals(other.row))) && !(!this.col.equals(other.col) && (this.col == null || !this.col.equals(other.col)));
     }
 
     @Override

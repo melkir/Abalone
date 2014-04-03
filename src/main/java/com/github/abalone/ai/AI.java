@@ -121,7 +121,7 @@ public class AI {
      */
 
     private Integer minimax (Board board, Integer depth, Color current, Boolean maximizingPlayer) {
-        Integer bestValue = null;
+        Integer bestValue;
         if (0 == depth || null == board.getPossibleMoves(current))
             return this.evaluateBoard(board, current);
         Integer val;
