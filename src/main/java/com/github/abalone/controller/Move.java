@@ -146,7 +146,6 @@ public class Move implements Serializable {
                     }
                 } else {
                     Ball closest = closest(board);
-                    System.out.println(closest);
                     // TODO Corriger la NPE
                     Ball next = board.getBallAt(closest, this.direction);
 
