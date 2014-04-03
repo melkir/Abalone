@@ -120,7 +120,7 @@ public class AI {
     minimax(origin, depth, TRUE)
      */
 
-    private Integer minimax (Board board, Integer depth, Color current, Boolean maximizingPlayer) {
+    private Integer minimax(Board board, Integer depth, Color current, Boolean maximizingPlayer) {
         Integer bestValue;
         if (0 == depth || null == board.getPossibleMoves(current))
             return this.evaluateBoard(board, current);
@@ -162,18 +162,18 @@ public class AI {
     alphabeta(origin, depth, -∞, +∞, TRUE)
      */
 
-    private Integer alphabeta (Board board, Integer depth, Integer alpha, Integer beta, Color current, Boolean maximizingPlayer) {
+    private Integer alphabeta(Board board, Integer depth, Integer alpha, Integer beta, Color current, Boolean maximizingPlayer) {
         if (0 == depth || null == board.getPossibleMoves(current))
             return this.evaluateBoard(board, current);
         if (maximizingPlayer) {
             for (Move m : board.getPossibleMoves(current)) {
-                alpha = Math.max(alpha, alphabeta(board, depth -1,  alpha, beta, current, Boolean.FALSE));
+                alpha = Math.max(alpha, alphabeta(board, depth - 1, alpha, beta, current, Boolean.FALSE));
                 if (beta <= alpha) break; // beta cut-off
             }
             return alpha;
         } else {
             for (Move m : board.getPossibleMoves(current)) {
-                beta = Math.min(beta, alphabeta(board, depth -1,  alpha, beta, current, Boolean.TRUE));
+                beta = Math.min(beta, alphabeta(board, depth - 1, alpha, beta, current, Boolean.TRUE));
                 if (beta <= alpha) break; // alpha cut-off
             }
             return beta;

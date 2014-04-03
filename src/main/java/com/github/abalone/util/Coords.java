@@ -1,7 +1,5 @@
 package com.github.abalone.util;
 
-import com.sun.istack.internal.NotNull;
-
 import java.io.Serializable;
 
 /**
@@ -104,7 +102,7 @@ public class Coords implements Serializable, Comparable<Coords> {
     }
 
     @Override
-    public int compareTo(@NotNull Coords o) {
+    public int compareTo(Coords o) {
         return 10 * this.row - o.row + this.col - o.col;
     }
 

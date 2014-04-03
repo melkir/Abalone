@@ -26,6 +26,7 @@ import java.util.logging.Logger;
  */
 class Board extends JPanel implements MouseListener, ValueListener {
     private final Window window;
+    private final HashSet<Coords> selectedBalls;
     private Boolean reversed = true;
     private SVGIcon board;
     private Double boardScale = -1.0;
@@ -33,7 +34,6 @@ class Board extends JPanel implements MouseListener, ValueListener {
     private SVGIcon blackBall;
     private Integer origX = 0;
     private Integer origY = 0;
-    private final HashSet<Coords> selectedBalls;
     private SVGIcon selection;
     private DirectionSelector selector;
 
@@ -250,7 +250,9 @@ class Board extends JPanel implements MouseListener, ValueListener {
         }
     }
 
-    /** Change the theme of the game */
+    /**
+     * Change the theme of the game
+     */
     private void themeChange(String theme) {
         this.board = new SVGIcon();
         this.board.setScaleToFit(true);

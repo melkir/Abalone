@@ -17,9 +17,9 @@ import java.util.Set;
  */
 public class Move implements Serializable {
 
+    private final Direction direction;
     private Set<Ball> initialBalls = null;
     private Set<Ball> finalBalls = null;
-    private final Direction direction;
     private Color color;
 
     private Boolean valid = false;
@@ -48,7 +48,9 @@ public class Move implements Serializable {
         }
     }
 
-    /** Renvoi la bille la plus proche de la bille adverse ou de la case vide */
+    /**
+     * Renvoi la bille la plus proche de la bille adverse ou de la case vide
+     */
     private Ball closest(Board board) {
         Coords closest = new Coords();
         switch (this.direction) {
