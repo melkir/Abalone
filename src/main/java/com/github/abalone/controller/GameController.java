@@ -35,7 +35,9 @@ public class GameController {
         return GameController.singleton;
     }
 
-    /** Launch a new game */
+    /**
+     * Launch a new game
+     */
     public void launch() {
         Board.getInstance().fill(null);
         this.game = new Game(Color.WHITE, -1, -1);
@@ -43,11 +45,13 @@ public class GameController {
                 : Color.NONE);
         //TODO Calculer le bestMove dans un thread
 //        this.currentBestMove = AI.getInstance().getBestMove(this.game.getTurn());
-        //
+
         this.window.updateBoard(this.game.getTurn());
     }
 
-    /** Save the game */
+    /**
+     * Save the game
+     */
     public void save() {
         ObjectOutputStream oos = null;
         File file;
@@ -66,7 +70,9 @@ public class GameController {
         }
     }
 
-    /** Load the saved game */
+    /**
+     * Load the saved game
+     */
     public Boolean load() {
         ObjectInputStream ois = null;
         File file;
@@ -79,10 +85,10 @@ public class GameController {
             this.game.setHistory(loadedGame.getHistory());
             this.game.setBoard(Board.getInstance());
             this.game.getBoard().fill(loadedGame);
-/*            AI.init(this.game, ((Boolean) Config.get("AI")) ? Color.BLACK
+            AI.init(this.game, ((Boolean) Config.get("AI")) ? Color.BLACK
                     : Color.NONE);
             this.currentBestMove = AI.getInstance().getBestMove(
-                    this.game.getTurn());*/
+                    this.game.getTurn());
             this.window.updateBoard(this.game.getTurn());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -98,7 +104,9 @@ public class GameController {
         return Boolean.TRUE;
     }
 
-    /** Quit the game */
+    /**
+     * Quit the game
+     */
     public void quit() {
         System.exit(0);
     }
@@ -130,17 +138,22 @@ public class GameController {
         }
         this.game.getBoard().apply(move);
         this.game.addToHistory(move);
+        // On récupére le joueur suivant
         Color next = this.game.getNextTurn();
         //TODO Mettre l' IA dans un thread
+
         AI ai = AI.getInstance();
         Move bestMove = ai.getBestMove(next);
+        // Si c'est l'ordinateur
         if (next.equals(ai.getColor())) {
+            // On rappelle la fonction avec le meilleur mouvement
             return this.doMove(bestMove);
         } else {
+            // Autrement on calcul le meilleur coup pour le joueur
             this.currentBestMove = bestMove;
         }
-        //
-        this.window.updateBoard(this.game.getTurn());
+        // On met a jour le plateau de jeu
+        this.window.updateBoard(next);
         return GameState.RUNNING;
     }
 
