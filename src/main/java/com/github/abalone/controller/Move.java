@@ -145,7 +145,6 @@ public class Move implements Serializable {
                     }
                 } else {
                     Ball closest = closest(board);
-                    // TODO Corriger la NPE
                     Ball next = board.getBallAt(closest, this.direction);
 
                     if (next.getColor() == Color.NONE) {
@@ -153,13 +152,6 @@ public class Move implements Serializable {
                         result.add(b2);
                     } else if (next.getColor() == this.color.other()) {
                         Color nextColor = board.getBallAt(next, this.direction).getColor();
-
-                        // TODO debug here
-                        if (nextColor == Color.INVALID) {
-                            System.out.println("une bille peut être éjecté ! case2 else");
-                        }
-                        // Fin debug
-
                         if (nextColor == Color.NONE || nextColor == Color.INVALID) {
                             result.add(b1);
                             result.add(b2);
@@ -197,13 +189,6 @@ public class Move implements Serializable {
                     } else if (next1.getColor() == this.color.other()) {
                         Ball next2 = board.getBallAt(next1, this.direction);
                         Color nextColor2 = next2.getColor();
-
-                        // TODO debug here
-                        if (nextColor2 == Color.INVALID) {
-                            System.out.println("une bille peut être éjecté ! case3 else");
-                        }
-                        // Fin debug
-
                         if (nextColor2 == Color.NONE || nextColor2 == Color.INVALID) {
                             result.add(b1);
                             result.add(b2);
@@ -212,13 +197,6 @@ public class Move implements Serializable {
                         } else {
                             Color nextColor3 = board.getBallAt(next2,
                                     this.direction).getColor();
-
-                            // TODO debug here
-                            if (nextColor3 == Color.INVALID) {
-                                System.out.println("une bille peut être éjecté ! case3 else if");
-                            }
-                            // Fin debug
-
                             if (nextColor3 == Color.NONE || nextColor3 == Color.INVALID) {
                                 result.add(b1);
                                 result.add(b2);
@@ -246,11 +224,11 @@ public class Move implements Serializable {
         return this.direction;
     }
 
-    public Boolean ballEjected() {
+    public Ball getBallEjected() {
         for (Ball b : finalBalls) {
-            if (isOut(b.getCoords())) return Boolean.TRUE;
+            if (isOut(b.getCoords())) return b;
         }
-        return Boolean.FALSE;
+        return null;
     }
 
     public Boolean isOut(Coords coords) {

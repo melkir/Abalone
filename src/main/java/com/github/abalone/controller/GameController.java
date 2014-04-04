@@ -137,14 +137,7 @@ public class GameController {
             return GameState.WON;
         }
 
-        Board board = this.game.getBoard();
-        board.apply(move);
-
-        // On vérifie si une bille a été éjecté
-        if (move.ballEjected()) {
-            System.out.println("une bille éjecté");
-        }
-
+        this.game.getBoard().apply(move);
         this.game.addToHistory(move);
 
         final Color next = this.game.getNextTurn();

@@ -62,6 +62,7 @@ public class Board implements Serializable {
     public Ball getBallAt(Coords coords) {
         Integer col = coords.getCol();
         Integer row = Math.abs(coords.getRow());
+        // TODO NPE QUI VIENT SUREMENT D'ICI l'ia veut une boule hors jeu !
         if (col < 0 || row > 4 || row + col > 8) {
             return null;
         }
@@ -104,14 +105,8 @@ public class Board implements Serializable {
     }
 
     public Ball getBallAt(Ball ball, Direction direction) {
-        Integer row = null, col = null;
-        try {
-            row = ball.getCoords().getRow();
-            col = ball.getCoords().getCol();
-        } catch (NullPointerException npe) {
-            System.err.println("ball is null");
-            npe.printStackTrace();
-        }
+        Integer row = ball.getCoords().getRow();
+        Integer col = ball.getCoords().getCol();
 
         switch (direction) {
             case UPLEFT:
@@ -193,13 +188,20 @@ public class Board implements Serializable {
                 ++count;
             }
         }
-//        System.out.println(" Board.ballsCount color " + color + " " + count);
         return count;
     }
 
     public void apply(Move move) throws RuntimeException {
         if (!move.isValid())
             throw new RuntimeException("Try to apply an invalid move");
+
+        // Si une boule est éjecté elle devient invalide
+        Ball ballEjected = move.getBallEjected();
+        if (ballEjected != null) {
+            // TODO Afficher les boules éjectés quelque part
+            ballEjected.setColor(Color.INVALID);
+        }
+
         this.balls.removeAll(move.getInitialBalls());
         this.balls.addAll(move.getFinalBalls());
     }
