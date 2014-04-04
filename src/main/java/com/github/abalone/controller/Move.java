@@ -231,7 +231,7 @@ public class Move implements Serializable {
         return null;
     }
 
-    public Boolean isOut(Coords coords) {
+    Boolean isOut(Coords coords) {
         Integer col = coords.getCol();
         Integer row = Math.abs(coords.getRow());
         return (col < 0 || row > 4 || row + col > 8);
