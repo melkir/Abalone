@@ -18,9 +18,9 @@ import java.util.Set;
 public class Move implements Serializable {
 
     private final Direction direction;
+    private final Color color;
     private Set<Ball> initialBalls = null;
     private Set<Ball> finalBalls = null;
-    private Color color;
 
     private Boolean valid = false;
 
@@ -112,7 +112,6 @@ public class Move implements Serializable {
         }
 
         if (null == closest.getCol() || null == closest.getRow()) {
-            System.err.println("Pas de bille a proximité");
             throw new NullPointerException(closest.toString());
         }
 
@@ -231,18 +230,6 @@ public class Move implements Serializable {
 
     public Boolean isValid() {
         return this.valid;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Move other = (Move) obj;
-        return !(this.initialBalls != other.initialBalls && (this.initialBalls == null || !this.initialBalls.equals(other.initialBalls))) && this.direction == other.direction && this.color == other.color;
     }
 
     @Override
