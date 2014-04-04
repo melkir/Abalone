@@ -62,7 +62,6 @@ public class Board implements Serializable {
     public Ball getBallAt(Coords coords) {
         Integer col = coords.getCol();
         Integer row = Math.abs(coords.getRow());
-        // TODO NPE QUI VIENT SUREMENT D'ICI l'ia veut une boule hors jeu !
         if (col < 0 || row > 4 || row + col > 8) {
             return null;
         }
