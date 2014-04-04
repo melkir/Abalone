@@ -153,6 +153,13 @@ public class Move implements Serializable {
                         result.add(b2);
                     } else if (next.getColor() == this.color.other()) {
                         Color nextColor = board.getBallAt(next, this.direction).getColor();
+
+                        // TODO debug here
+                        if (nextColor == Color.INVALID) {
+                            System.out.println("une bille peut être éjecté ! case2 else");
+                        }
+                        // Fin debug
+
                         if (nextColor == Color.NONE || nextColor == Color.INVALID) {
                             result.add(b1);
                             result.add(b2);
@@ -190,6 +197,13 @@ public class Move implements Serializable {
                     } else if (next1.getColor() == this.color.other()) {
                         Ball next2 = board.getBallAt(next1, this.direction);
                         Color nextColor2 = next2.getColor();
+
+                        // TODO debug here
+                        if (nextColor2 == Color.INVALID) {
+                            System.out.println("une bille peut être éjecté ! case3 else");
+                        }
+                        // Fin debug
+
                         if (nextColor2 == Color.NONE || nextColor2 == Color.INVALID) {
                             result.add(b1);
                             result.add(b2);
@@ -198,6 +212,13 @@ public class Move implements Serializable {
                         } else {
                             Color nextColor3 = board.getBallAt(next2,
                                     this.direction).getColor();
+
+                            // TODO debug here
+                            if (nextColor3 == Color.INVALID) {
+                                System.out.println("une bille peut être éjecté ! case3 else if");
+                            }
+                            // Fin debug
+
                             if (nextColor3 == Color.NONE || nextColor3 == Color.INVALID) {
                                 result.add(b1);
                                 result.add(b2);
@@ -210,10 +231,7 @@ public class Move implements Serializable {
                 }
                 break;
         }
-        if (result.isEmpty())
-            return null;
-        else
-            return result;
+        return (result.isEmpty() ? null : result);
     }
 
     public Set<Ball> getFinalBalls() {
@@ -226,6 +244,19 @@ public class Move implements Serializable {
 
     public Direction getDirection() {
         return this.direction;
+    }
+
+    public Boolean ballEjected() {
+        for (Ball b : finalBalls) {
+            if (isOut(b.getCoords())) return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    public Boolean isOut(Coords coords) {
+        Integer col = coords.getCol();
+        Integer row = Math.abs(coords.getRow());
+        return (col < 0 || row > 4 || row + col > 8);
     }
 
     public Boolean isValid() {
