@@ -2,6 +2,7 @@ package com.github.abalone.config;
 
 import com.github.abalone.view.Window;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Collections;
@@ -28,22 +29,24 @@ public class Theme extends ConstraintValue<String> {
         if (Theme.list == null) {
             Theme.list = new HashSet<String>();
 
-            String jarPath = null;
+            String jarPath;
             try {
                 jarPath = Window.class.getResource("game").getPath();
                 jarPath = jarPath.substring(5, jarPath.indexOf("!"));
             } catch (StringIndexOutOfBoundsException e) {
-                // TODO Replace this ugly fix !
                 jarPath = getClass().getClassLoader().getResource("./").getPath();
-                jarPath = jarPath.substring(0, jarPath.length()-8) + "Abalone-1.0-SNAPSHOT-jar-with-dependencies.jar";
+                jarPath = jarPath.substring(0, jarPath.length() - 8) + "Abalone-1.0-SNAPSHOT-jar-with-dependencies.jar";
             }
 
             JarFile jar = null;
             try {
                 jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+            } catch (FileNotFoundException fne) {
+                System.err.println("Please do : 'nvm package' before running your project");
+                fne.printStackTrace();
+                System.exit(1);
             } catch (IOException ex) {
-                Logger.getLogger(Theme.class.getName()).log(Level.SEVERE, null,
-                        ex);
+                Logger.getLogger(Theme.class.getName()).log(Level.SEVERE, null, ex);
                 System.exit(1);
             }
 
