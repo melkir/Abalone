@@ -130,6 +130,7 @@ public class GameController {
     }
 
     GameState doMove(Move move) {
+        // TODO Revoir cette méthode
         Color current = this.game.getTurn();
         if (current == Color.NONE) {
             return GameState.OUTOFTURNS;
@@ -143,10 +144,13 @@ public class GameController {
 
         final Color next = this.game.getNextTurn();
         final AI ai = AI.getInstance();
-        Color colorAI = ai.getColor();
         this.window.updateBoard();
 
-        if (!next.equals(colorAI)) {
+        // TODO Solution temporaire qui demande trop souvent une vérification
+        Boolean isIA = (Boolean) Config.get("AI");
+        if (isIA) {
+            this.window.updateBoard();
+        } else {
             this.window.reverseBoard();
         }
 
