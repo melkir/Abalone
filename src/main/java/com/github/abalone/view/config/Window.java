@@ -15,9 +15,6 @@ public class Window extends JFrame {
 
     public Window() {
         super("Preferences");
-
-        this.setSize(500, 100);
-
         this.box = new Box(BoxLayout.PAGE_AXIS);
 
         Map<String, Value> config = com.github.abalone.config.Config.getConfig();
@@ -30,12 +27,14 @@ public class Window extends JFrame {
                 this.addConf(new CheckBox(value), null);
             } else if (cl.equals(String.class)) {
                 this.addConf(new TextField(value), value.description);
+            } else if (cl.equals(Integer.class)) {
+                this.addConf(new TextField(value), value.description);
             } else
                 throw new RuntimeException(String.format("Value type not supported yet: %s", cl));
         }
 
         this.add(this.box);
-
+        this.pack();
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
