@@ -1,5 +1,7 @@
 package com.github.abalone.config;
 
+import com.github.abalone.view.Window;
+
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Collections;
@@ -26,9 +28,15 @@ public class Theme extends ConstraintValue<String> {
         if (Theme.list == null) {
             Theme.list = new HashSet<String>();
 
-//          String jarPath = Window.class.getResource("game").getPath();
-//		    jarPath = jarPath.substring(5, jarPath.indexOf("!"));
-            String jarPath = "/home/melkir/IJworspace/Abalone/target/Abalone-1.0-SNAPSHOT-jar-with-dependencies.jar";
+            String jarPath = null;
+            try {
+                jarPath = Window.class.getResource("game").getPath();
+                jarPath = jarPath.substring(5, jarPath.indexOf("!"));
+            } catch (StringIndexOutOfBoundsException e) {
+                // TODO Replace this ugly fix !
+                jarPath = getClass().getClassLoader().getResource("./").getPath();
+                jarPath = jarPath.substring(0, jarPath.length()-8) + "Abalone-1.0-SNAPSHOT-jar-with-dependencies.jar";
+            }
 
             JarFile jar = null;
             try {
