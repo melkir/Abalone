@@ -20,7 +20,6 @@ import java.util.Set;
  * @author melkir
  */
 public class GameController {
-    // TODO Désactiver bestMove en pvp, mettre IA dans un tread, terminer la partie quand 6 boules sont sorties
     private static GameController singleton;
     private Window window;
     private Game game;
@@ -59,6 +58,7 @@ public class GameController {
             file = new File("abalone.save");
             oos = new ObjectOutputStream(new FileOutputStream(file));
             oos.writeObject(this.game);
+            System.out.println("Partie sauvegardé");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -90,6 +90,7 @@ public class GameController {
             this.currentBestMove = AI.getInstance().getBestMove(
                     this.game.getTurn());
             this.window.updateBoard();
+            System.out.println("Partie restauré");
         } catch (Exception ex) {
             ex.printStackTrace();
             return Boolean.FALSE;
@@ -150,6 +151,7 @@ public class GameController {
         }
 
         if (next.equals(ai.getColor())) {
+            // TODO Remplacer invokeLater par SwingWorker afin de ne pas bloquer l'IG quand l'IA joue
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {

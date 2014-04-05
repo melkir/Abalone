@@ -43,6 +43,7 @@ public class Window extends JFrame implements ComponentListener {
 
         this.board = new Board(this);
         Toolbar toolbar = new Toolbar(this.board);
+        // TODO Utiliser ce label statut pour afficher plus d'info sur l'état du jeu
         JLabel status = new JLabel("Abalone");
 
         this.add(toolbar, BorderLayout.PAGE_START);

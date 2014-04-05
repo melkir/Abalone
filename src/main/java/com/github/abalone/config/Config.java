@@ -16,7 +16,8 @@ public class Config {
     private Config() {
         this.conf = new HashMap<String, Value>();
         this.conf.put("theme", new Theme("Theme", "glossy"));
-        this.conf.put("AI", new Value<Boolean>("Human vs AI", true));
+        this.conf.put("AI", new Value<Boolean>("Human vs AI", false));
+        // TODO Ajouter le choix d'un algo IA et de sa profondeur
     }
 
     static private HashMap<String, Value> getConf() {
