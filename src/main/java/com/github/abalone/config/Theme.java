@@ -42,7 +42,7 @@ public class Theme extends ConstraintValue<String> {
             try {
                 jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
             } catch (FileNotFoundException fne) {
-                System.err.println("Please do : 'nvm package' before running your project");
+                System.err.println("Please do : 'mvn package' before running your project");
                 fne.printStackTrace();
                 System.exit(1);
             } catch (IOException ex) {
