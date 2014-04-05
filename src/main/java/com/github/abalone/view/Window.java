@@ -77,6 +77,10 @@ public class Window extends JFrame implements ComponentListener {
         this.board.repaint();
     }
 
+    public void reverseBoard() {
+        this.board.reversed = !this.board.reversed;
+    }
+
     @Override
     public void componentResized(ComponentEvent ce) {
         this.board.computeBoardScale();

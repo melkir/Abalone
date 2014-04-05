@@ -141,9 +141,14 @@ public class GameController {
         this.game.addToHistory(move);
 
         final Color next = this.game.getNextTurn();
+        final AI ai = AI.getInstance();
+        Color colorAI = ai.getColor();
         this.window.updateBoard();
 
-        final AI ai = AI.getInstance();
+        if (!next.equals(colorAI)) {
+            this.window.reverseBoard();
+        }
+
         if (next.equals(ai.getColor())) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
