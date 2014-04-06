@@ -41,8 +41,7 @@ public class GameController {
     public void launch() {
         Board.getInstance().fill(null);
         this.game = new Game(Color.WHITE, -1, -1);
-        AI.init(this.game, (Boolean) Config.get("AI") ? Color.BLACK
-                : Color.NONE);
+        AI.init(this.game, (Boolean) Config.get("AI") ? Color.BLACK : Color.NONE);
         //TODO Calculer le bestMove dans un thread
 //        this.currentBestMove = AI.getInstance().getBestMove(this.game.getTurn());
         this.window.updateBoard();

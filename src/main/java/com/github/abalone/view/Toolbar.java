@@ -40,7 +40,7 @@ class Toolbar extends JToolBar {
         this.newGame.setEnabled(false);
         this.saveGame.setEnabled(true);
         this.loadGame.setEnabled(false);
-        this.bestMove.setEnabled(true);
+        this.bestMove.setEnabled(false);
         this.undo.setEnabled(true);
     }
 }
