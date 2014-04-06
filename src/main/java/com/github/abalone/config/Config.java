@@ -19,7 +19,7 @@ public class Config {
         this.conf.put("theme", new Theme("Theme", "glossy"));
         // TODO Ajouter le choix d'un algo IA et de sa profondeur
         this.conf.put("algo", new IA("Algorithme", "NegaScout"));
-        this.conf.put("max_depth", new Value<String>("Profondeur Max.", "3"));
+        this.conf.put("max_depth", new Value<String>("Profondeur Max.", "2"));
     }
 
     static private HashMap<String, Value> getConf() {

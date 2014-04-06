@@ -1,5 +1,6 @@
 package com.github.abalone.ai;
 
+import com.github.abalone.config.Config;
 import com.github.abalone.controller.Move;
 import com.github.abalone.model.Board;
 import com.github.abalone.model.Game;
@@ -12,7 +13,8 @@ import java.util.Set;
  */
 public class AI {
 
-    private static final Integer MAX_DEPTH = 3;
+    private static final Integer MAX_DEPTH = Integer.valueOf((String)Config.get("max_depth"));
+    private static final String ALGO = (String) Config.get("algo");
     private static final Integer INF = 1000;
 
     private static AI instance;
@@ -22,7 +24,6 @@ public class AI {
     private AI(Game game, Color selfColor) {
         this.game = game;
         this.selfColor = selfColor;
-//        this.MAX_DEPTH = Integer.valueOf((String) Config.get("max_depth"));
     }
 
     public static void init(Game game, Color AIColor) {
@@ -41,9 +42,17 @@ public class AI {
         Set<Move> moves = board.getPossibleMoves(current);
         for (Move m : moves) {
             board.apply(m);
-            Integer score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
-//            Integer score = minimax(board, MAX_DEPTH -1, current.other(), Boolean.TRUE);
-//            Integer score = alphabeta(board, MAX_DEPTH -1, -INF, +INF, current.other(), Boolean.TRUE);
+            Integer score;
+            if (ALGO.equals("NegaScout")) {
+                score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
+            } else if (ALGO.equals("AlphaBeta")) {
+                score = alphabeta(board, MAX_DEPTH -1, -INF, +INF, current.other(), Boolean.TRUE);
+            } else if (ALGO.equals("MiniMax")) {
+                score = minimax(board, MAX_DEPTH -1, current.other(), Boolean.TRUE);
+            } else {
+                score = null;
+                System.err.println("Algorithme inconnu");
+            }
             if (score > best) {
                 best = score;
                 bestMove = m;
@@ -123,8 +132,8 @@ public class AI {
 
     private Integer minimax(Board board, Integer depth, Color current, Boolean maximizingPlayer) {
         Integer bestValue;
-        if (0 == depth || null == board.getPossibleMoves(current))
-            return this.evaluateBoard(board, current);
+        if (0 == depth)
+            return ((current == selfColor) ? 1 : -1) * this.evaluateBoard(board, current);
         Integer val;
         if (maximizingPlayer) {
             bestValue = -INF;
@@ -166,8 +175,8 @@ public class AI {
      */
 
     private Integer alphabeta(Board board, Integer depth, Integer alpha, Integer beta, Color current, Boolean maximizingPlayer) {
-        if (0 == depth || null == board.getPossibleMoves(current))
-            return this.evaluateBoard(board, current);
+        if (0 == depth)
+            return ((current == selfColor) ? 1 : -1) * this.evaluateBoard(board, current);
         if (maximizingPlayer) {
             for (Move m : board.getPossibleMoves(current)) {
                 alpha = Math.max(alpha, alphabeta(board, depth - 1, alpha, beta, current, Boolean.FALSE));
