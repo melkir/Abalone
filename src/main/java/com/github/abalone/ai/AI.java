@@ -42,24 +42,30 @@ public class AI {
         Set<Move> moves = board.getPossibleMoves(current);
         for (Move m : moves) {
             board.apply(m);
-            Integer score;
-            if (ALGO.equals("NegaScout")) {
-                score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
-            } else if (ALGO.equals("AlphaBeta")) {
-                score = alphabeta(board, MAX_DEPTH -1, -INF, +INF, current.other(), Boolean.TRUE);
-            } else if (ALGO.equals("MiniMax")) {
-                score = minimax(board, MAX_DEPTH -1, current.other(), Boolean.TRUE);
-            } else {
-                score = null;
-                System.err.println("Algorithme inconnu");
-            }
+            Integer score = getScoreByAlgo(board, current);
             if (score > best) {
                 best = score;
                 bestMove = m;
             }
             board.revert(m);
         }
+        System.out.println(best);
         return bestMove;
+    }
+
+    public Integer getScoreByAlgo(Board board, Color current) {
+        Integer score;
+        if (ALGO.equals("NegaScout")) {
+            score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
+        } else if (ALGO.equals("AlphaBeta")) {
+            score = alphabeta(board, MAX_DEPTH -1, -INF, +INF, current.other(), Boolean.TRUE);
+        } else if (ALGO.equals("MiniMax")) {
+            score = minimax(board, MAX_DEPTH -1, current.other(), Boolean.TRUE);
+        } else {
+            score = null;
+            System.err.println("Algorithme inconnu");
+        }
+        return score;
     }
 
     /*
@@ -138,6 +144,7 @@ public class AI {
         if (maximizingPlayer) {
             bestValue = -INF;
             for (Move m : board.getPossibleMoves(current)) {
+                board.apply(m);
                 val = minimax(board, depth - 1, current, Boolean.FALSE);
                 bestValue = Math.max(bestValue, val);
                 board.revert(m);
@@ -146,6 +153,7 @@ public class AI {
         } else {
             bestValue = INF;
             for (Move m : board.getPossibleMoves(current)) {
+                board.apply(m);
                 val = minimax(board, depth - 1, current, Boolean.TRUE);
                 bestValue = Math.min(bestValue, val);
                 board.revert(m);
@@ -179,6 +187,7 @@ public class AI {
             return ((current == selfColor) ? 1 : -1) * this.evaluateBoard(board, current);
         if (maximizingPlayer) {
             for (Move m : board.getPossibleMoves(current)) {
+                board.apply(m);
                 alpha = Math.max(alpha, alphabeta(board, depth - 1, alpha, beta, current, Boolean.FALSE));
                 if (beta <= alpha) break; // beta cut-off
                 board.revert(m);
@@ -186,6 +195,7 @@ public class AI {
             return alpha;
         } else {
             for (Move m : board.getPossibleMoves(current)) {
+                board.apply(m);
                 beta = Math.min(beta, alphabeta(board, depth - 1, alpha, beta, current, Boolean.TRUE));
                 if (beta <= alpha) break; // alpha cut-off
                 board.revert(m);

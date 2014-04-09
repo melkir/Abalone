@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class Window extends JFrame implements ComponentListener {
     private final Board board;
     private final Boolean locked = Boolean.FALSE;
+    private JLabel status = new JLabel("Abalone");
 
     public Window() throws Exception {
         super("Abalone");
@@ -44,7 +45,7 @@ public class Window extends JFrame implements ComponentListener {
         this.board = new Board(this);
         Toolbar toolbar = new Toolbar(this.board);
         // TODO Utiliser ce label statut pour afficher plus d'info sur l'état du jeu
-        JLabel status = new JLabel("Abalone");
+//        JLabel status = new JLabel("Abalone");
 
         this.add(toolbar, BorderLayout.PAGE_START);
         this.add(this.board);
@@ -52,6 +53,10 @@ public class Window extends JFrame implements ComponentListener {
 
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.addComponentListener(this);
+    }
+
+    public void setStatusText(String text) {
+        this.status.setText(text);
     }
 
     Boolean isLocked() {

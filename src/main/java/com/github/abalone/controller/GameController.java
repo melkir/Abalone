@@ -131,10 +131,12 @@ public class GameController {
     GameState doMove(Move move) {
         // TODO Revoir cette méthode
         Color current = this.game.getTurn();
+        this.window.setStatusText("C'est au tour des " + current.other());
+
         if (current == Color.NONE) {
             return GameState.OUTOFTURNS;
         } else if (this.game.over()) {
-            System.out.println("Partie terminé");
+            this.window.setStatusText("Partie terminé");
             return GameState.WON;
         }
 
@@ -155,6 +157,7 @@ public class GameController {
 
         if (next.equals(ai.getColor())) {
             // TODO Remplacer invokeLater par SwingWorker afin de ne pas bloquer l'IG quand l'IA joue
+            this.window.setStatusText("IA : Calcul du meilleur mouvement");
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
