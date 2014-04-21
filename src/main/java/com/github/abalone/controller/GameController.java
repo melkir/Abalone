@@ -142,14 +142,12 @@ public class GameController {
         this.window.updateBoard();
         // On passe au tour suivant
         Color next = this.game.getNextTurn();
-        // Si le prochain a jouer est l'IA
-        if (next == AI.getInstance().getColor()) {
-            // On applique le mouvement de l'IA
-            doIAMove();
-            return GameState.RUNNING;
-        }
-        if (current != AI.getInstance().getColor()) this.window.reverseBoard();
         this.window.setStatusText("C'est au tour des billes " + next.toString());
+        // On vérifie si c'est à l'IA de jouer
+        Boolean isAI = (Boolean) Config.get("AI");
+        if (!isAI) this.window.reverseBoard();
+        else if (AI.getInstance().getColor() == next) doIAMove();
+
         return GameState.RUNNING;
     }
 
