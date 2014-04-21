@@ -44,4 +44,8 @@ public enum Color implements Serializable {
             return this;
     }
 
+    @Override
+    public String toString() {
+        return this == Color.BLACK ? "noires" : "blanches";
+    }
 }

@@ -129,55 +129,51 @@ public class GameController {
     }
 
     GameState doMove(Move move) {
-        // TODO Revoir cette méthode
         Color current = this.game.getTurn();
-        this.window.setStatusText("C'est au tour des " + current.other());
-
         if (current == Color.NONE) {
             return GameState.OUTOFTURNS;
         } else if (this.game.over()) {
             this.window.setStatusText("Partie terminé");
             return GameState.WON;
         }
-
+        // On applique le mouvement
         this.game.getBoard().apply(move);
         this.game.addToHistory(move);
-
-        final Color next = this.game.getNextTurn();
-        final AI ai = AI.getInstance();
         this.window.updateBoard();
-
-        // TODO Solution temporaire qui demande trop souvent une vérification
-        Boolean isIA = (Boolean) Config.get("AI");
-        if (isIA) {
-            this.window.updateBoard();
-        } else {
-            this.window.reverseBoard();
+        // On passe au tour suivant
+        Color next = this.game.getNextTurn();
+        // Si le prochain a jouer est l'IA
+        if (next == AI.getInstance().getColor()) {
+            // On applique le mouvement de l'IA
+            doIAMove();
+            return GameState.RUNNING;
         }
-
-        if (next.equals(ai.getColor())) {
-            // TODO Remplacer invokeLater par SwingWorker afin de ne pas bloquer l'IG quand l'IA joue
-            this.window.setStatusText("IA : Calcul du meilleur mouvement");
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    doMove(ai.getBestMove(next));
-                }
-            });
-        }
-
+        if (current != AI.getInstance().getColor()) this.window.reverseBoard();
+        this.window.setStatusText("C'est au tour des billes " + next.toString());
         return GameState.RUNNING;
+    }
+
+    private void doIAMove() {
+        final AI ai = AI.getInstance();
+        final Color current = this.game.getTurn();
+        this.window.setStatusText("IA : Calcul du meilleur mouvement");
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                doMove(ai.getBestMove(current));
+            }
+        });
     }
 
     public GameState move(Set<Coords> selectedBallsCoords, Direction direction) {
         Color turn = this.game.getTurn();
         Board board = this.game.getBoard();
         Set<Ball> balls = board.getLineColorBallsAt(selectedBallsCoords, turn);
-        if (balls == null)
-            throw new RuntimeException("This one should never throw");
+        assert balls != null : "This one should never throw";
         Move move = new Move(balls, direction, turn);
         move.compute(board);
-        return doMove(move);
+        doMove(move);
+        return GameState.RUNNING;
     }
 
     public Move getCurrentBestMove() {
@@ -186,23 +182,18 @@ public class GameController {
 
     private void doGoBack() {
         int lastIndex = this.game.getHistory().size() - 1;
-        if (lastIndex != -1) {
-            this.game.getPreviousTurn();
-            Move move = this.game.getHistory().get(lastIndex);
-            this.game.getHistory().remove(move);
-            this.game.getBoard().revert(move);
-            this.window.updateBoard();
-        }
+        if (lastIndex == -1) return;
+        this.game.getPreviousTurn();
+        Move move = this.game.getHistory().get(lastIndex);
+        this.game.getHistory().remove(move);
+        this.game.getBoard().revert(move);
+        this.window.updateBoard();
     }
 
     public void goBack() {
-        if (this.game == null) {
-            return;
-        }
+        if (this.game == null) return;
         doGoBack();
-        if (AI.getInstance().getColor() != Color.NONE) {
-            doGoBack();
-        }
+        if (AI.getInstance().getColor() != Color.NONE) doGoBack();
     }
 
     public void setWindow(Window window) {

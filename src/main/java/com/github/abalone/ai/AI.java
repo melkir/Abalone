@@ -53,7 +53,7 @@ public class AI {
         return bestMove;
     }
 
-    public Integer getScoreByAlgo(Board board, Color current) {
+    Integer getScoreByAlgo(Board board, Color current) {
         Integer score;
         if (ALGO.equals("NegaScout")) {
             score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
