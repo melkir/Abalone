@@ -15,8 +15,7 @@ public class Value<T> {
     public Value(String description, T value) {
         this.description = description;
         this.listeners = new HashSet<ValueListener>();
-        if (value != null)
-            this.set(value);
+        if (value != null) this.set(value);
     }
 
     public Class getType() {

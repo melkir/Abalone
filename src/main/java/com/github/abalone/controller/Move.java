@@ -21,14 +21,12 @@ public class Move implements Serializable {
     private final Color color;
     private Set<Ball> initialBalls = null;
     private Set<Ball> finalBalls = null;
-
     private Boolean valid = false;
 
     public Move(Set<Ball> initialBalls, Direction direction, Color color) {
         this.initialBalls = new HashSet<Ball>();
-        for (Ball b : initialBalls) {
+        for (Ball b : initialBalls)
             this.initialBalls.add(new Ball(b));
-        }
         this.direction = direction;
         this.color = color;
     }
@@ -42,8 +40,7 @@ public class Move implements Serializable {
             for (Ball b : this.initialBalls) {
                 Ball nb = new Ball(b);
                 nb.move(this.direction);
-                if (nb.getColor() != Color.INVALID)
-                    this.finalBalls.add(nb);
+                if (nb.getColor() != Color.INVALID) this.finalBalls.add(nb);
             }
         }
     }
@@ -97,23 +94,17 @@ public class Move implements Serializable {
             case LEFT:
                 closest = new Coords(10, 10);
                 for (Ball b : this.initialBalls) {
-                    if (closest.getCol() > b.getCoords().getCol()) {
-                        closest = new Coords(b.getCoords());
-                    }
+                    if (closest.getCol() > b.getCoords().getCol()) closest = new Coords(b.getCoords());
                 }
                 break;
             case RIGHT:
                 closest = new Coords(10, -10);
                 for (Ball b : this.initialBalls) {
-                    if (closest.getCol() < b.getCoords().getCol()) {
-                        closest = new Coords(b.getCoords());
-                    }
+                    if (closest.getCol() < b.getCoords().getCol()) closest = new Coords(b.getCoords());
                 }
         }
 
-        if (null == closest.getCol() || null == closest.getRow()) {
-            throw new NullPointerException(closest.toString());
-        }
+        assert !(null == closest.getCol() || null == closest.getRow()) : closest.toString();
 
         return board.getBallAt(closest);
 
@@ -128,9 +119,7 @@ public class Move implements Serializable {
         switch (this.initialBalls.size()) {
             case 1:
                 b1 = itb.next();
-                if (board.getBallAt(b1, this.direction).getColor() == Color.NONE) {
-                    result.add(b1);
-                }
+                if (board.getBallAt(b1, this.direction).getColor() == Color.NONE) result.add(b1);
                 break;
             case 2:
                 b1 = itb.next();
@@ -165,9 +154,7 @@ public class Move implements Serializable {
                 b2 = itb.next();
                 b3 = itb.next();
                 Typelignepl linepl = b1.getCoords().LignePl(b2.getCoords());
-                if (linepl == Typelignepl.NONADJACENT) {
-                    linepl = b1.getCoords().LignePl(b3.getCoords());
-                }
+                if (linepl == Typelignepl.NONADJACENT) linepl = b1.getCoords().LignePl(b3.getCoords());
                 if (Typelignepl.lesDirectionPerpendiculaire(linepl).contains(
                         this.direction)) {
                     Color nextColor1 = board.getBallAt(b1, this.direction).getColor();
@@ -244,9 +231,9 @@ public class Move implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + (this.initialBalls != null ? this.initialBalls.hashCode() : 0);
-        hash = 53 * hash + (this.direction != null ? this.direction.hashCode() : 0);
-        hash = 53 * hash + (this.color != null ? this.color.hashCode() : 0);
+        hash = 53 * hash + (null != this.initialBalls ? this.initialBalls.hashCode() : 0);
+        hash = 53 * hash + (null != this.direction ? this.direction.hashCode() : 0);
+        hash = 53 * hash + (null != this.color ? this.color.hashCode() : 0);
         return hash;
     }
 }

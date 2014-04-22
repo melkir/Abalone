@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class AI {
 
-    private static final Integer MAX_DEPTH = Integer.valueOf((String)Config.get("max_depth"));
+    private static final Integer MAX_DEPTH = Integer.valueOf((String) Config.get("max_depth"));
     private static final String ALGO = (String) Config.get("algo");
     private static final Integer INF = 1000;
 
@@ -58,9 +58,9 @@ public class AI {
         if (ALGO.equals("NegaScout")) {
             score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
         } else if (ALGO.equals("AlphaBeta")) {
-            score = alphabeta(board, MAX_DEPTH -1, -INF, +INF, current.other(), Boolean.TRUE);
+            score = alphabeta(board, MAX_DEPTH - 1, -INF, +INF, current.other(), Boolean.TRUE);
         } else if (ALGO.equals("MiniMax")) {
-            score = minimax(board, MAX_DEPTH -1, current.other(), Boolean.TRUE);
+            score = minimax(board, MAX_DEPTH - 1, current.other(), Boolean.TRUE);
         } else {
             score = null;
             System.err.println("Algorithme inconnu");

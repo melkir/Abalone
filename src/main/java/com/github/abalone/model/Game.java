@@ -11,9 +11,9 @@ import java.util.ArrayList;
  */
 public class Game implements Serializable {
 
+    private final Integer timeLeft;
     private Board board;
     private Color turn;
-    private Integer timeLeft;
     private Integer turnsLeft;
     private ArrayList<Move> history;
 
@@ -70,18 +70,11 @@ public class Game implements Serializable {
     }
 
     public void getPreviousTurn() {
-        if (!this.turnsLeft.equals(-1)) {
-            ++this.turnsLeft;
-        }
-        if (this.turnsLeft.equals(0)) {
-            this.turn = Color.NONE;
-        } else {
-            this.turn = this.turn.other();
-        }
+        if (!this.turnsLeft.equals(-1)) ++this.turnsLeft;
+        this.turn = this.turnsLeft.equals(0) ? Color.NONE : this.turn.other();
     }
 
     public Boolean over() {
-        return (this.getBoard().loose(Color.WHITE) || this.getBoard().loose(
-                Color.BLACK));
+        return (this.getBoard().loose(Color.WHITE) || this.getBoard().loose(Color.BLACK));
     }
 }

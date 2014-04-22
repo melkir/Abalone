@@ -32,9 +32,7 @@ public class Board implements Serializable {
     }
 
     public static Board getInstance() {
-        if (Board.singleton == null) {
-            Board.singleton = new Board();
-        }
+        if (Board.singleton == null) Board.singleton = new Board();
         return Board.singleton;
     }
 
@@ -45,62 +43,39 @@ public class Board implements Serializable {
     public Color elementAt(Coords coords) {
         Integer col = coords.getCol();
         Integer row = Math.abs(coords.getRow());
-        if (col < 0 || row > 4 || row + col > 8) {
-            return Color.INVALID;
-        }
+        if (col < 0 || row > 4 || row + col > 8) return Color.INVALID;
         Ball ball = new Ball(Color.WHITE, coords);
-        if (this.balls.contains(ball)) {
-            return Color.WHITE;
-        }
+        if (this.balls.contains(ball)) return Color.WHITE;
         ball.setColor(Color.BLACK);
-        if (this.balls.contains(ball)) {
-            return Color.BLACK;
-        }
-        return Color.NONE;
+        return this.balls.contains(ball) ? Color.BLACK : Color.NONE;
     }
 
     public Ball getBallAt(Coords coords) {
         Integer col = coords.getCol();
         Integer row = Math.abs(coords.getRow());
-        if (col < 0 || row > 4 || row + col > 8) {
-            return null;
-        }
+        if (col < 0 || row > 4 || row + col > 8) return null;
         Ball ball = new Ball(Color.WHITE, coords);
-        if (this.balls.contains(ball)) {
-            return ball;
-        }
+        if (this.balls.contains(ball)) return ball;
         ball.setColor(Color.BLACK);
-        if (this.balls.contains(ball)) {
-            return ball;
-        }
-        return null;
+        return this.balls.contains(ball) ? ball : null;
     }
 
     private Ball getColorBallAt(Color color, Coords coords) {
         Integer col = coords.getCol();
         Integer row = Math.abs(coords.getRow());
-        if (col < 0 || row > 4 || row + col > 8) {
-            return null;
-        }
+        if (col < 0 || row > 4 || row + col > 8) return null;
         Ball ball = new Ball(color, coords);
-        if (this.balls.contains(ball)) {
-            return ball;
-        }
-        return null;
+        return this.balls.contains(ball) ? ball : null;
     }
 
     public Set<Ball> getLineColorBallsAt(Set<Coords> coords, Color color) {
         Set<Ball> selectedBalls = new HashSet<Ball>();
         for (Coords c : coords) {
             Ball b = this.getColorBallAt(color, c);
-            if (b == null)
-                return null;
+            if (b == null) return null;
             selectedBalls.add(b);
         }
-        if (areALine(selectedBalls)) {
-            return selectedBalls;
-        }
-        return null;
+        return areALine(selectedBalls) ? selectedBalls : null;
     }
 
     public Ball getBallAt(Ball ball, Direction direction) {
@@ -109,14 +84,10 @@ public class Board implements Serializable {
 
         switch (direction) {
             case UPLEFT:
-                if (--row < 0) {
-                    --col;
-                }
+                if (--row < 0) --col;
                 break;
             case UPRIGHT:
-                if (--row > -1) {
-                    ++col;
-                }
+                if (--row > -1) ++col;
                 break;
             case LEFT:
                 --col;
@@ -125,22 +96,15 @@ public class Board implements Serializable {
                 ++col;
                 break;
             case DOWNLEFT:
-                if (++row > 0) {
-                    --col;
-                }
+                if (++row > 0) --col;
                 break;
             case DOWNRIGHT:
-                if (++row < 1) {
-                    ++col;
-                }
+                if (++row < 1) ++col;
                 break;
         }
         Coords newCoords = new Coords(row, col);
         Ball returnBall = this.getBallAt(newCoords);
-
-        if (returnBall == null) {
-            returnBall = new Ball(this.elementAt(newCoords), newCoords);
-        }
+        if (returnBall == null) returnBall = new Ball(this.elementAt(newCoords), newCoords);
         return returnBall;
     }
 
@@ -148,9 +112,7 @@ public class Board implements Serializable {
      * Remplie le plateau de jeu avec le positionnement par défaut
      */
     public void fill(Game p) {
-        if (this.filled) {
-            return;
-        }
+        if (this.filled) return;
         if (p == null) {
             for (int i = 0; i <= 4; ++i) {
                 this.addBall(new Ball(Color.WHITE, -4, i));
@@ -164,9 +126,7 @@ public class Board implements Serializable {
                 this.addBall(new Ball(Color.WHITE, -2, i));
                 this.addBall(new Ball(Color.BLACK, 2, i));
             }
-        } else {
-            this.balls = p.getBoard().balls;
-        }
+        } else this.balls = p.getBoard().balls;
 
         this.filled = true;
     }
@@ -182,32 +142,23 @@ public class Board implements Serializable {
 
     public Integer ballsCount(Color color) {
         Integer count = 0;
-        for (Ball b : balls) {
-            if (b.getColor() == color) {
-                ++count;
-            }
-        }
+        for (Ball b : balls) if (b.getColor() == color) ++count;
         return count;
     }
 
     public void apply(Move move) throws RuntimeException {
-        if (!move.isValid())
-            throw new RuntimeException("Try to apply an invalid move");
-
+        if (!move.isValid()) throw new RuntimeException("Try to apply an invalid move");
         // Si une boule est éjecté elle devient invalide
         Ball ballEjected = move.getBallEjected();
-        if (ballEjected != null) {
-            // TODO Afficher les boules éjectés quelque part
-            ballEjected.setColor(Color.INVALID);
-        }
+        // TODO Afficher les boules éjectés quelque part
+        if (ballEjected != null) ballEjected.setColor(Color.INVALID);
 
         this.balls.removeAll(move.getInitialBalls());
         this.balls.addAll(move.getFinalBalls());
     }
 
     public void revert(Move move) {
-        if (!move.isValid())
-            throw new RuntimeException("Try to apply an invalid move");
+        if (!move.isValid()) throw new RuntimeException("Try to apply an invalid move");
         this.balls.removeAll(move.getFinalBalls());
         this.balls.addAll(move.getInitialBalls());
     }
@@ -229,16 +180,8 @@ public class Board implements Serializable {
                     return (Math.abs(c1.getCol() - c2.getCol()) == 1);
                 } else if (Math.abs(c1.getRow() - c2.getRow()) == 1) {
                     Integer diff;
-                    if (c1.getRow() < c2.getRow()) {
-                        diff = c2.getCol() - c1.getCol();
-                    } else {
-                        diff = c1.getCol() - c2.getCol();
-                    }
-                    if (c1.getRow() < 0) {
-                        return (diff == 0 || diff == 1);
-                    } else {
-                        return (diff == 0 || diff == -1);
-                    }
+                    diff = (c1.getRow() < c2.getRow()) ? (c2.getCol() - c1.getCol()) : (c1.getCol() - c2.getCol());
+                    return (c1.getRow() < 0) ? (diff == 0 || diff == 1) : (diff == 0 || diff == -1);
                 }
                 break;
             case 3:
@@ -296,8 +239,7 @@ public class Board implements Serializable {
 
         Set<Ball> balls1 = new HashSet<Ball>();
         for (Ball b : this.balls) {
-            if (b.getColor().equals(player))
-                balls1.add(new Ball(b));
+            if (b.getColor().equals(player)) balls1.add(new Ball(b));
         }
         Set<Ball> balls2 = new HashSet<Ball>(balls1);
         for (Ball b1 : balls1) {
@@ -312,13 +254,11 @@ public class Board implements Serializable {
                 ballsToMove2.add(new Ball(b2));
                 if (this.areALine(ballsToMove2)) {
                     sets.add(ballsToMove2);
-
                     balls3.remove(b2);
                     for (Ball b3 : balls3) {
                         Set<Ball> ballsToMove3 = new HashSet<Ball>(ballsToMove2);
                         ballsToMove3.add(new Ball(b3));
-                        if (this.areALine(ballsToMove3))
-                            sets.add(ballsToMove3);
+                        if (this.areALine(ballsToMove3)) sets.add(ballsToMove3);
                     }
                 }
             }
@@ -328,9 +268,7 @@ public class Board implements Serializable {
             for (Direction d : Direction.values()) {
                 Move m = new Move(ballsToMove, d, player);
                 m.compute(this);
-                if (m.isValid()) {
-                    answer.add(m);
-                }
+                if (m.isValid()) answer.add(m);
             }
             moves.addAll(answer);
         }

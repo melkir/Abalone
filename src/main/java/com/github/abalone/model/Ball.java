@@ -43,12 +43,7 @@ public class Ball implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (obj == null || getClass() != obj.getClass()) return false;
         final Ball other = (Ball) obj;
         return this.color == other.color && !(this.coords != other.coords && (this.coords == null || !this.coords.equals(other.coords)));
     }

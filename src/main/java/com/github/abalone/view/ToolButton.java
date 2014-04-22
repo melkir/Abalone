@@ -39,34 +39,24 @@ class ToolButton extends JButton implements ActionListener {
         } catch (URISyntaxException ex) {
             Logger.getLogger(ToolButton.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setIcon(icon);
-
-        this.addActionListener(this);
-
-        if (this.type.equals("preferences")) {
-            this.frame = new com.github.abalone.view.config.Window();
-        }
+        setIcon(icon);
+        addActionListener(this);
+        if (this.type.equals("preferences")) this.frame = new com.github.abalone.view.config.Window();
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (this.type.equals("new-game")) {
-            GameController.getInstance().launch();
-            ((Toolbar) this.component).gameLaunched();
-        } else if (this.type.equals("save-game")) {
-            GameController.getInstance().save();
-        } else if (this.type.equals("load-game")) {
-            if (GameController.getInstance().load())
-                ((Toolbar) this.component).gameLaunched();
-        } else if (this.type.equals("best-move")) {
-            Move move = GameController.getInstance().getCurrentBestMove();
-            ((Board) this.component).setMove(move);
-        } else if (this.type.equals("undo")) {
-            GameController.getInstance().goBack();
-        } else if (this.type.equals("preferences")) {
-            this.frame.setVisible(true);
-        } else if (this.type.equals("quit")) {
-            GameController.getInstance().quit();
-        }
+        GameController gc = GameController.getInstance();
+        if (type.equals("new-game")) {
+            gc.launch();
+            ((Toolbar) component).gameLaunched();
+        } else if (type.equals("best-move")) {
+            Move move = gc.getCurrentBestMove();
+            ((Board) component).setMove(move);
+        } else if (type.equals("load-game") && gc.load()) ((Toolbar) component).gameLaunched();
+        else if (type.equals("save-game")) gc.save();
+        else if (type.equals("undo")) gc.goBack();
+        else if (type.equals("preferences")) frame.setVisible(true);
+        else if (type.equals("quit")) gc.quit();
     }
 }

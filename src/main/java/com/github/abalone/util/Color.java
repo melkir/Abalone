@@ -34,14 +34,18 @@ public enum Color implements Serializable {
     }
 
     public Color other() {
-        if (this == WHITE)
-            return BLACK;
-        else if (this == BLACK)
-            return WHITE;
-        else if (this == INVALID)
-            return INVALID;
-        else
-            return this;
+        switch (this) {
+            case WHITE:
+                return BLACK;
+            case BLACK:
+                return WHITE;
+            case NONE:
+                return NONE;
+            case INVALID:
+                return INVALID;
+            default:
+                return this;
+        }
     }
 
     @Override

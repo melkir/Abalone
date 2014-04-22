@@ -26,9 +26,8 @@ public class GameController {
     private Move currentBestMove;
 
     public static GameController getInstance() {
-        if (GameController.singleton == null) {
+        if (GameController.singleton == null)
             GameController.singleton = new GameController();
-        }
         return GameController.singleton;
     }
 
@@ -113,23 +112,20 @@ public class GameController {
         Color color = game.getTurn();
         Board board = game.getBoard();
         Set<Ball> balls = board.getLineColorBallsAt(selectedBallsCoords, color);
-        if (balls != null) {
-            for (Direction d : Direction.values()) {
-                Move move = new Move(balls, d, color);
-                move.compute(board);
-                if (move.isValid()) {
-                    answer.add(d);
-                }
-            }
+        if (balls == null) return answer;
+        for (Direction d : Direction.values()) {
+            Move move = new Move(balls, d, color);
+            move.compute(board);
+            if (move.isValid()) answer.add(d);
         }
         return answer;
     }
 
     GameState doMove(Move move) {
         Color current = game.getTurn();
-        if (current == Color.NONE) {
+        if (current == Color.NONE)
             return GameState.OUTOFTURNS;
-        } else if (this.game.over()) {
+        else if (this.game.over()) {
             window.setStatusText("Partie terminé");
             return GameState.WON;
         }

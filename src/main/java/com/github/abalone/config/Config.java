@@ -18,27 +18,23 @@ public class Config {
         this.conf.put("AI", new Value<Boolean>("Human vs AI", true));
         this.conf.put("theme", new Theme("Theme", "glossy"));
         // TODO Ajouter le choix d'un algo IA et de sa profondeur
-        this.conf.put("algo", new IA("Algorithme", "NegaScout"));
+        this.conf.put("algo", new IA());
         this.conf.put("max_depth", new Value<String>("Profondeur Max.", "3"));
     }
 
     static private HashMap<String, Value> getConf() {
-        if (Config.singleton == null)
-            Config.singleton = new Config();
-        return Config.singleton.conf;
+        return (Config.singleton == null) ? new Config().conf : Config.singleton.conf;
     }
 
     static public Object get(String name) {
-        if ((name == null) || (!getConf().containsKey(name)))
-            return null;
-        return getConf().get(name).get();
+        return (name == null || !getConf().containsKey(name)) ? null : getConf().get(name).get();
     }
 
     static public Map<String, Value> getConfig() {
         return Collections.unmodifiableMap(getConf());
     }
 
-    static public void addValueListener(String key, ValueListener listener) {
-        getConf().get(key).addValueListener(listener);
+    static public void addValueListener(ValueListener listener) {
+        getConf().get("theme").addValueListener(listener);
     }
 }

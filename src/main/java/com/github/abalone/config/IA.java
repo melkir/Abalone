@@ -11,8 +11,8 @@ public class IA extends ConstraintValue<String> {
 
     private static HashSet<String> list;
 
-    public IA(String description, String value) {
-        super(description, value);
+    public IA() {
+        super("Algorithme", "NegaScout");
     }
 
     @Override

@@ -19,7 +19,6 @@ public abstract class ConstraintValue<T> extends Value<T> {
     @Override
     final public void set(T value) {
         this.initConstraint();
-        if (this.check(value))
-            super.set(value);
+        if (this.check(value)) super.set(value);
     }
 }

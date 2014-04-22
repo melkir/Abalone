@@ -21,27 +21,19 @@ class DirectionButton extends JButton implements ActionListener {
 
     DirectionButton(Direction direction, Board board) {
         super();
-
         this.direction = direction;
         this.board = board;
-
         Dimension d = new Dimension(30, 30);
-
         SVGIcon icon = new SVGIcon();
         icon.setScaleToFit(true);
         icon.setAntiAlias(true);
         icon.setPreferredSize(d);
         try {
-            icon.setSvgURI(getClass().getResource(
-                    "game/" + Config.get("theme") + "/" + this.direction.name()
-                            + ".svg"
-            ).toURI());
+            icon.setSvgURI(getClass().getResource("game/" + Config.get("theme") + "/" + this.direction.name() + ".svg").toURI());
         } catch (URISyntaxException ex) {
-            Logger.getLogger(ToolButton.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            Logger.getLogger(ToolButton.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setIcon(icon);
-
         this.addActionListener(this);
     }
 

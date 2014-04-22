@@ -34,12 +34,7 @@ public class Coords implements Serializable, Comparable<Coords> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (obj == null || getClass() != obj.getClass()) return false;
         final Coords other = (Coords) obj;
         return !(!this.row.equals(other.row) && (this.row == null || !this.row.equals(other.row))) && !(!this.col.equals(other.col) && (this.col == null || !this.col.equals(other.col)));
     }
@@ -57,14 +52,10 @@ public class Coords implements Serializable, Comparable<Coords> {
 
         switch (direction) {
             case UPLEFT:
-                if (--destination.row < 0) {
-                    --destination.col;
-                }
+                if (--destination.row < 0) --destination.col;
                 break;
             case UPRIGHT:
-                if (--destination.row > -1) {
-                    ++destination.col;
-                }
+                if (--destination.row > -1) ++destination.col;
                 break;
             case LEFT:
                 --destination.col;
@@ -73,32 +64,20 @@ public class Coords implements Serializable, Comparable<Coords> {
                 ++destination.col;
                 break;
             case DOWNLEFT:
-                if (++destination.row > 0) {
-                    --destination.col;
-                }
+                if (++destination.row > 0) --destination.col;
                 break;
             case DOWNRIGHT:
-                if (++destination.row < 1) {
-                    ++destination.col;
-                }
+                if (++destination.row < 1) ++destination.col;
                 break;
         }
         return destination;
     }
 
     public Typelignepl LignePl(Coords c) {
-        if (this.moveTo(Direction.UPLEFT).equals(c)
-                || c.equals(this.moveTo(Direction.DOWNRIGHT))) {
-            return Typelignepl.DIAGONAL2;
-        } else if (this.moveTo(Direction.UPRIGHT).equals(c)
-                || c.equals(this.moveTo(Direction.DOWNLEFT))) {
-            return Typelignepl.DIAGONAL1;
-        } else if (this.moveTo(Direction.RIGHT).equals(c)
-                || c.equals(this.moveTo(Direction.LEFT))) {
-            return Typelignepl.HORIZONTAL;
-        } else {
-            return Typelignepl.NONADJACENT;
-        }
+        return moveTo(Direction.UPLEFT).equals(c)
+                || c.equals(moveTo(Direction.DOWNRIGHT)) ? Typelignepl.DIAGONAL2 : moveTo(Direction.UPRIGHT).equals(c)
+                || c.equals(moveTo(Direction.DOWNLEFT)) ? Typelignepl.DIAGONAL1 : moveTo(Direction.RIGHT).equals(c)
+                || c.equals(moveTo(Direction.LEFT)) ? Typelignepl.HORIZONTAL : Typelignepl.NONADJACENT;
     }
 
     @Override
@@ -108,7 +87,6 @@ public class Coords implements Serializable, Comparable<Coords> {
 
     @Override
     public String toString() {
-        return String.format("%s: [row=%d,col=%d]", getClass().getName(),
-                this.row, this.col);
+        return String.format("%s: [row=%d,col=%d]", getClass().getName(), this.row, this.col);
     }
 }

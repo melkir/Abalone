@@ -15,44 +15,34 @@ import java.util.logging.Logger;
 public class Window extends JFrame implements ComponentListener {
     private final Board board;
     private final Boolean locked = Boolean.FALSE;
-    private JLabel status = new JLabel("Abalone");
+    private final JLabel status = new JLabel("Abalone");
 
     public Window() throws Exception {
         super("Abalone");
-
         GameController.getInstance().setWindow(this);
-
-        this.setSize(600, 600);
-
+        setSize(600, 600);
         String[] lookAndFeels = {"com.sun.java.swing.plaf.gtk.GTKLookAndFeel",
                 "com.sun.java.swing.plaf.windows.WindowsLookAndFeel",
                 "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel",
                 "com.sun.java.swing.plaf.motif.MotifLookAndFeel",
                 "javax.swing.plaf.metal.MetalLookAndFeel"};
-
         integrate:
         {
-            for (String name : lookAndFeels) {
-                if (this.checkLookAndFeel(name))
-                    break integrate;
-            }
+            for (String name : lookAndFeels)
+                if (this.checkLookAndFeel(name)) break integrate;
             throw new Exception("No LookAndFeel");
         }
 
         LayoutManager layout = new BorderLayout();
-        this.setLayout(layout);
+        setLayout(layout);
+        board = new Board(this);
 
-        this.board = new Board(this);
-        Toolbar toolbar = new Toolbar(this.board);
-        // TODO Utiliser ce label statut pour afficher plus d'info sur l'état du jeu
-//        JLabel status = new JLabel("Abalone");
+        add(new Toolbar(board), BorderLayout.PAGE_START);
+        add(this.board);
+        add(status, BorderLayout.PAGE_END);
 
-        this.add(toolbar, BorderLayout.PAGE_START);
-        this.add(this.board);
-        this.add(status, BorderLayout.PAGE_END);
-
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.addComponentListener(this);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addComponentListener(this);
     }
 
     public void setStatusText(String text) {

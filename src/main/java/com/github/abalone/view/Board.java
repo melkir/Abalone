@@ -39,12 +39,9 @@ class Board extends JPanel implements MouseListener, ValueListener {
 
     Board(Window window) {
         this.window = window;
-
         this.selectedBalls = new HashSet();
-
-        Config.addValueListener("theme", this);
+        Config.addValueListener(this);
         this.themeChange((String) Config.get("theme"));
-
         this.addMouseListener(this);
     }
 
@@ -53,29 +50,20 @@ class Board extends JPanel implements MouseListener, ValueListener {
         Dimension container = this.getSize();
         Double s = 1.0;
 
-        if ((target.width > container.width)
-                && (target.height <= container.height))
+        if ((target.width > container.width) && (target.height <= container.height))
             // It does not fit horizontally
             s = (double) container.width / (double) target.width;
-        else if ((target.width <= container.width)
-                && (target.height > container.height))
+        else if ((target.width <= container.width) && (target.height > container.height))
             // It does not fit vertically
             s = (double) container.height / (double) target.height;
-        else if (target.width == target.height) {
-            if (container.width <= container.height)
-                s = (double) container.width / (double) target.width;
-            else
-                s = (double) container.height / (double) target.height;
-        }
+        else if (target.width == target.height)
+            s = ((container.width <= container.height) ? ((double) container.width / (double) target.width) : ((double) container.height / (double) target.height));
 
-        Dimension scaled = new Dimension((int) (target.width * s),
-                (int) (target.height * s));
+        Dimension scaled = new Dimension((int) (target.width * s), (int) (target.height * s));
         this.board.setPreferredSize(scaled);
-
         this.boardScale = s;
         this.origX = (container.width - scaled.width) / 2;
         this.origY = (container.height - scaled.height) / 2;
-
         Dimension ballSize = new Dimension((int) (100.0 * s), (int) (100.0 * s));
         this.whiteBall.setPreferredSize(ballSize);
         this.blackBall.setPreferredSize(ballSize);
@@ -93,23 +81,12 @@ class Board extends JPanel implements MouseListener, ValueListener {
                 .getBalls()) {
             Coords ballCoords = b.getCoords();
             Coords coords;
-            if (this.reversed)
-                coords = new Coords(-ballCoords.getRow(), ballCoords.getCol());
-            else
-                coords = new Coords(ballCoords);
+            if (this.reversed) coords = new Coords(-ballCoords.getRow(), ballCoords.getCol());
+            else coords = new Coords(ballCoords);
             Point point = this.getPoint(coords);
-            switch (b.getColor()) {
-                case WHITE:
-                    this.whiteBall.paintIcon(this, g, point.x, point.y);
-                    break;
-                case BLACK:
-                    this.blackBall.paintIcon(this, g, point.x, point.y);
-                    break;
-
-            }
-            if (this.selectedBalls.contains(ballCoords)) {
-                this.selection.paintIcon(this, g, point.x, point.y);
-            }
+            if (b.getColor() == Color.WHITE) whiteBall.paintIcon(this, g, point.x, point.y);
+            else if (b.getColor() == Color.BLACK) blackBall.paintIcon(this, g, point.x, point.y);
+            if (this.selectedBalls.contains(ballCoords)) this.selection.paintIcon(this, g, point.x, point.y);
         }
     }
 
@@ -120,7 +97,6 @@ class Board extends JPanel implements MouseListener, ValueListener {
         Double bY = (700.0 + 110.0 * r);
         Integer x = this.origX + (int) (bX * this.boardScale);
         Integer y = this.origY + (int) (bY * this.boardScale);
-
         return new Point(x, y);
     }
 
@@ -130,82 +106,50 @@ class Board extends JPanel implements MouseListener, ValueListener {
         Double bY = (double) point.y / this.boardScale - 750.0;
 
         Integer r, c;
-        if ((bY > -50) && (bY < 50))
-            r = 0;
-        else if ((bY > -160) && (bY < -60))
-            r = -1;
-        else if ((bY > -270) && (bY < -170))
-            r = -2;
-        else if ((bY > -380) && (bY < -280))
-            r = -3;
-        else if ((bY > -490) && (bY < -390))
-            r = -4;
-        else if ((bY > 60) && (bY < 160))
-            r = 1;
-        else if ((bY > 170) && (bY < 270))
-            r = 2;
-        else if ((bY > 280) && (bY < 380))
-            r = 3;
-        else if ((bY > 390) && (bY < 490))
-            r = 4;
-        else
-            return null;
+        if ((bY > -50) && (bY < 50)) r = 0;
+        else if ((bY > -160) && (bY < -60)) r = -1;
+        else if ((bY > -270) && (bY < -170)) r = -2;
+        else if ((bY > -380) && (bY < -280)) r = -3;
+        else if ((bY > -490) && (bY < -390)) r = -4;
+        else if ((bY > 60) && (bY < 160)) r = 1;
+        else if ((bY > 170) && (bY < 270)) r = 2;
+        else if ((bY > 280) && (bY < 380)) r = 3;
+        else if ((bY > 390) && (bY < 490)) r = 4;
+        else return null;
 
         bX -= (65.0 * Math.abs(r));
+        if ((bX > 0) && (bX < 100)) c = 0;
+        else if ((bX > 130) && (bX < 230)) c = 1;
+        else if ((bX > 260) && (bX < 360)) c = 2;
+        else if ((bX > 390) && (bX < 490)) c = 3;
+        else if ((bX > 520) && (bX < 620)) c = 4;
+        else if ((Math.abs(r) < 4) && (bX > 650) && (bX < 750)) c = 5;
+        else if ((Math.abs(r) < 3) && (bX > 780) && (bX < 880)) c = 6;
+        else if ((Math.abs(r) < 2) && (bX > 910) && (bX < 1010)) c = 7;
+        else if ((Math.abs(r) < 1) && (bX > 1040) && (bX < 1140)) c = 8;
+        else return null;
 
-        if ((bX > 0) && (bX < 100))
-            c = 0;
-        else if ((bX > 130) && (bX < 230))
-            c = 1;
-        else if ((bX > 260) && (bX < 360))
-            c = 2;
-        else if ((bX > 390) && (bX < 490))
-            c = 3;
-        else if ((bX > 520) && (bX < 620))
-            c = 4;
-        else if ((Math.abs(r) < 4) && (bX > 650) && (bX < 750))
-            c = 5;
-        else if ((Math.abs(r) < 3) && (bX > 780) && (bX < 880))
-            c = 6;
-        else if ((Math.abs(r) < 2) && (bX > 910) && (bX < 1010))
-            c = 7;
-        else if ((Math.abs(r) < 1) && (bX > 1040) && (bX < 1140))
-            c = 8;
-        else
-            return null;
-
-        if (this.reversed)
-            r = -r;
-        return new Coords(r, c);
+        return new Coords(reversed ? -r : r, c);
     }
 
     @Override
     public void mouseClicked(MouseEvent me) {
-        if (this.window.isLocked())
-            return;
+        if (this.window.isLocked()) return;
         Coords coords = this.getCoords(me.getPoint());
-        if (coords == null)
-            return;
-        Color color = com.github.abalone.model.Board.getInstance()
-                .elementAt(coords);
-        if (!color.isPlayer())
-            return;
-        else if (this.selectedBalls.contains(coords))
-            this.selectedBalls.remove(coords);
-        else if (this.selectedBalls.size() < 3)
-            this.selectedBalls.add(coords);
-        else
-            return;
+        if (coords == null) return;
+        Color color = com.github.abalone.model.Board.getInstance().elementAt(coords);
+        if (!color.isPlayer()) return;
+        else if (this.selectedBalls.contains(coords)) this.selectedBalls.remove(coords);
+        else if (this.selectedBalls.size() < 3) this.selectedBalls.add(coords);
+        else return;
         this.repaint();
         Set<Direction> directions;
-        Set<Direction> validDirections = GameController.getInstance()
-                .validDirections(this.selectedBalls);
-        if (this.reversed) {
+        Set<Direction> validDirections = GameController.getInstance().validDirections(this.selectedBalls);
+        if (!this.reversed) directions = new HashSet<Direction>(validDirections);
+        else {
             directions = new HashSet<Direction>();
-            for (Direction d : validDirections)
-                directions.add(d.reversed());
-        } else
-            directions = new HashSet<Direction>(validDirections);
+            for (Direction d : validDirections) directions.add(d.reversed());
+        }
         this.selector.updateButtons(directions);
     }
 
@@ -227,24 +171,19 @@ class Board extends JPanel implements MouseListener, ValueListener {
 
     void setMove(Move move) {
         HashSet<Direction> d = new HashSet<Direction>();
-        if (this.reversed)
-            d.add(move.getDirection().reversed());
-        else
-            d.add(move.getDirection());
+        d.add(this.reversed ? move.getDirection().reversed() : move.getDirection());
         this.selectedBalls.clear();
         for (Ball b : move.getInitialBalls()) {
             Coords c = b.getCoords();
-            this.selectedBalls.add(c);
+            selectedBalls.add(c);
         }
         this.selector.updateButtons(d);
         this.repaint();
     }
 
     void move(Direction direction) {
-        if (this.reversed)
-            direction = direction.reversed();
-        if (GameController.getInstance().move(this.selectedBalls, direction)
-                .equals(GameState.RUNNING)) {
+        if (reversed) direction = direction.reversed();
+        if (GameController.getInstance().move(this.selectedBalls, direction).equals(GameState.RUNNING)) {
             this.selectedBalls.clear();
             this.selector.updateButtons(null);
         }
@@ -267,21 +206,15 @@ class Board extends JPanel implements MouseListener, ValueListener {
         this.selection.setScaleToFit(true);
         this.selection.setAntiAlias(true);
         try {
-            if (theme == null)
-                theme = "classic";
-            this.board.setSvgURI(getClass().getResource(
-                    "game/" + theme + "/board.svg").toURI());
-            this.whiteBall.setSvgURI(getClass().getResource(
-                    "game/" + theme + "/white-ball.svg").toURI());
-            this.blackBall.setSvgURI(getClass().getResource(
-                    "game/" + theme + "/black-ball.svg").toURI());
-            this.selection.setSvgURI(getClass().getResource(
-                    "game/" + theme + "/selection.svg").toURI());
+            if (theme == null) theme = "classic";
+            this.board.setSvgURI(getClass().getResource("game/" + theme + "/board.svg").toURI());
+            this.whiteBall.setSvgURI(getClass().getResource("game/" + theme + "/white-ball.svg").toURI());
+            this.blackBall.setSvgURI(getClass().getResource("game/" + theme + "/black-ball.svg").toURI());
+            this.selection.setSvgURI(getClass().getResource("game/" + theme + "/selection.svg").toURI());
         } catch (URISyntaxException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        this.selector = new DirectionSelector(this.window, this);
+        selector = new DirectionSelector(this.window, this);
     }
 
     @Override
