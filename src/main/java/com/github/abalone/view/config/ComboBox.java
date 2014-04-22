@@ -15,9 +15,8 @@ class ComboBox extends JComboBox implements ActionListener {
 
     ComboBox(Value value) {
         this.value = value;
-        for (Object option : ((ConstraintValue) value).getList()) {
+        for (Object option : ((ConstraintValue) value).getList())
             this.addItem(option);
-        }
         this.addActionListener(this);
     }
 

@@ -20,8 +20,8 @@ import java.util.logging.Logger;
 public class Theme extends ConstraintValue<String> {
     private static HashSet<String> list;
 
-    public Theme(String description, String value) {
-        super(description, value);
+    public Theme() {
+        super("Theme", "glossy");
     }
 
     @Override
@@ -54,9 +54,7 @@ public class Theme extends ConstraintValue<String> {
         while (jarContent.hasMoreElements()) {
             JarEntry entry = jarContent.nextElement();
             String fileName = entry.getName();
-            if (!entry.isDirectory() || !fileName.contains("game")
-                    || fileName.endsWith("game/"))
-                continue;
+            if (!entry.isDirectory() || !fileName.contains("game") || fileName.endsWith("game/")) continue;
             String[] theme = fileName.split("/");
             Theme.list.add(theme[theme.length - 1]);
         }

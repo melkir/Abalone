@@ -55,13 +55,13 @@ public class AI {
 
     Integer getScoreByAlgo(Board board, Color current) {
         Integer score;
-        if (ALGO.equals("NegaScout")) {
+        if (ALGO.equals("NegaScout"))
             score = negaScout(board, current.other(), MAX_DEPTH - 1, -INF, +INF);
-        } else if (ALGO.equals("AlphaBeta")) {
+        else if (ALGO.equals("AlphaBeta"))
             score = alphabeta(board, MAX_DEPTH - 1, -INF, +INF, current.other(), Boolean.TRUE);
-        } else if (ALGO.equals("MiniMax")) {
+        else if (ALGO.equals("MiniMax"))
             score = minimax(board, MAX_DEPTH - 1, current.other(), Boolean.TRUE);
-        } else {
+        else {
             score = null;
             System.err.println("Algorithme inconnu");
         }

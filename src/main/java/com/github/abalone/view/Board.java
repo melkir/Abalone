@@ -206,7 +206,7 @@ class Board extends JPanel implements MouseListener, ValueListener {
         this.selection.setScaleToFit(true);
         this.selection.setAntiAlias(true);
         try {
-            if (theme == null) theme = "classic";
+            if (theme == null) theme = "glossy";
             this.board.setSvgURI(getClass().getResource("game/" + theme + "/board.svg").toURI());
             this.whiteBall.setSvgURI(getClass().getResource("game/" + theme + "/white-ball.svg").toURI());
             this.blackBall.setSvgURI(getClass().getResource("game/" + theme + "/black-ball.svg").toURI());

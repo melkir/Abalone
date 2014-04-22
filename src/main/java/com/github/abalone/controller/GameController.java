@@ -38,8 +38,6 @@ public class GameController {
         Board.getInstance().fill(null);
         game = new Game(Color.WHITE, -1, -1);
         AI.init(this.game, (Boolean) Config.get("AI") ? Color.BLACK : Color.NONE);
-        //TODO Calculer le bestMove dans un thread
-//        this.currentBestMove = AI.getInstance().getBestMove(this.game.getTurn());
         window.updateBoard();
     }
 
@@ -163,8 +161,7 @@ public class GameController {
         assert balls != null : "This one should never throw";
         Move move = new Move(balls, direction, turn);
         move.compute(board);
-        doMove(move);
-        return GameState.RUNNING;
+        return doMove(move);
     }
 
     public Move getCurrentBestMove() {
